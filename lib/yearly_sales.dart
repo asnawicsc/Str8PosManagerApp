@@ -1,60 +1,55 @@
-/// Timeseries chart example
+/// Bar chart example
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 
-class SimpleTimeSeriesChart extends StatelessWidget {
-  final List<charts.Series> seriesList;
-  final bool animate;
+class YearlySales extends StatelessWidget {
 
-  SimpleTimeSeriesChart(this.seriesList, {this.animate});
-
-  /// Creates a [TimeSeriesChart] with sample data and no transition.
-  factory SimpleTimeSeriesChart.withSampleData() {
-    return new SimpleTimeSeriesChart(
-      _createSampleData([]),
-      // Disable animations for image tests.
-      animate: false,
-    );
-  }
+  List<dynamic> salesData;
+  YearlySales({@required this.salesData});
 
 
   @override
   Widget build(BuildContext context) {
-    return new charts.TimeSeriesChart(
-      seriesList,
-      animate: animate,
-      // Optionally pass in a [DateTimeFactory] used by the chart. The factory
-      // should create the same type of [DateTime] as the data provided. If none
-      // specified, the default creates local date time.
-      dateTimeFactory: const charts.LocalDateTimeFactory(),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Yearly Sales'),
+        ),
+        body: Container(
+          child:  charts.BarChart(_createSampleData(salesData)),
+        ));
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<TimeSeriesSales, DateTime>> _createSampleData(List<Map> salesData) {
-    final data = [
-      new TimeSeriesSales(new DateTime(2017, 9, 19), 5),
-      new TimeSeriesSales(new DateTime(2017, 9, 26), 25),
-      new TimeSeriesSales(new DateTime(2017, 10, 3), 100),
-      new TimeSeriesSales(new DateTime(2017, 10, 10), 75),
-    ];
+  static List<charts.Series<OrdinalSales, String>> _createSampleData(List<dynamic> salesData) {
+
+
+    print(salesData);
+    List<OrdinalSales> data = [];
+
+    for (var data2 in salesData) {
+      print(data2["year"]);
+      print("sales val ${data2["sales"]}");
+      data.add(     new OrdinalSales(data2["year"], data2["sales"] == 0 ? 0.00: data2["sales"]),);
+    }
+
+
 
     return [
-      new charts.Series<TimeSeriesSales, DateTime>(
+      new charts.Series<OrdinalSales, String>(
         id: 'Sales',
-        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year.toString(),
+        measureFn: (OrdinalSales sales, _) => sales.sales,
         data: data,
       )
     ];
   }
 }
 
-/// Sample time series data type.
-class TimeSeriesSales {
-  final DateTime time;
-  final int sales;
+/// Sample ordinal data type.
+class OrdinalSales {
+  final int year;
+  final double sales;
 
-  TimeSeriesSales(this.time, this.sales);
+  OrdinalSales(this.year, this.sales);
 }

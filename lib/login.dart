@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'main_sales.dart';
 import 'channel/channel.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+
 Channel _chatChannel;
 class LoginPage extends StatefulWidget {
   // This widget is the root of your application.
@@ -16,6 +16,9 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget build(BuildContext context)  {
     return Scaffold(
+        appBar: AppBar(
+          title: Text('Login Page'),
+        ),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -62,7 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
 
                       _chatChannel = Channel(user: username.text, licenseKey: password.text);
-                       List<charts.Series> seriesList;
+
+
+                     _chatChannel.socket.onError((error) => print("socket.onError: $error"));
+                      _chatChannel.socket.onClose((msg) => print("socket.onClose: $msg"));
+
+
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => MainSalesPage(channel: _chatChannel)),
