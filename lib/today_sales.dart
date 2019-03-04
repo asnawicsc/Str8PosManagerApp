@@ -1,3 +1,5 @@
+/// Bar chart example
+///
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'channel/channel.dart';
@@ -5,14 +7,14 @@ import 'flutter_bloc/flutter_bloc.dart';
 import 'rms.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
-class YearlySalesPage extends StatefulWidget {
+class TodaySalesPage extends StatefulWidget {
   Channel channel;
-  YearlySalesPage({@required this.channel});
+  TodaySalesPage({@required this.channel});
 
-  YearlySalesPageState createState() =>YearlySalesPageState();
+  TodaySalesPageState createState() => TodaySalesPageState();
 }
 
-class YearlySalesPageState extends State<YearlySalesPage> {
+class TodaySalesPageState extends State<TodaySalesPage> {
   Channel channel;
   Widget listWidgets ;
   var result;
@@ -21,15 +23,15 @@ class YearlySalesPageState extends State<YearlySalesPage> {
   void initState() {
     super.initState();
     channel = widget.channel;
-    listWidgets=    JumpingDotsProgressIndicator(
-      fontSize: 20.0,
-    );
+
   }
 
   @override
   Widget build(BuildContext context) {
     RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
-
+    listWidgets=    JumpingDotsProgressIndicator(
+      fontSize: 20.0,
+    );
     return BlocBuilder(
         bloc: rmsBloc,
         builder: (BuildContext context, RmsState state) {
@@ -41,7 +43,7 @@ class YearlySalesPageState extends State<YearlySalesPage> {
           }
           return Scaffold(
               appBar: AppBar(
-                title: Text('Monthly Sales'),
+                title: Text('Today Sales'),
               ),
               body: Container(
                 child: listWidgets,
@@ -57,7 +59,7 @@ class YearlySalesPageState extends State<YearlySalesPage> {
     for (var data2 in salesData) {
       data.add(
         new OrdinalSales(
-            data2["year"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
+            data2["day"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
       );
     }
 
@@ -65,7 +67,7 @@ class YearlySalesPageState extends State<YearlySalesPage> {
       new charts.Series<OrdinalSales, String>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
-        domainFn: (OrdinalSales sales, _) => sales.year.toString(),
+        domainFn: (OrdinalSales sales, _) => sales.day.toString(),
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: data,
       )
@@ -75,8 +77,8 @@ class YearlySalesPageState extends State<YearlySalesPage> {
 
 /// Sample ordinal data type.
 class OrdinalSales {
-  final int year;
+  final int day;
   final double sales;
 
-  OrdinalSales(this.year, this.sales);
+  OrdinalSales(this.day, this.sales);
 }

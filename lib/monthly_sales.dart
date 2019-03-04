@@ -1,38 +1,65 @@
-/// Bar chart example
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
+import 'channel/channel.dart';
+import 'flutter_bloc/flutter_bloc.dart';
+import 'rms.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
-class MonthlySales extends StatelessWidget {
+class MonthlySalesPage extends StatefulWidget {
+  Channel channel;
+  MonthlySalesPage({@required this.channel});
 
-  List<dynamic> salesData;
-  MonthlySales({@required this.salesData});
+  MonthlySalesPageState createState() =>MonthlySalesPageState();
+}
 
+class MonthlySalesPageState extends State<MonthlySalesPage> {
+  Channel channel;
+  Widget listWidgets ;
+  var result;
+
+  @override
+  void initState() {
+    super.initState();
+    channel = widget.channel;
+    listWidgets=    JumpingDotsProgressIndicator(
+      fontSize: 20.0,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Monthly Sales'),
-        ),
-        body: Container(
-          child:  charts.BarChart(_createSampleData(salesData)),
-        ));
+    RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
+
+    return BlocBuilder(
+        bloc: rmsBloc,
+        builder: (BuildContext context, RmsState state) {
+          print("state : ${state.chartData}");
+
+          if  (state.chartData.length > 0 ) {
+            listWidgets=
+                charts.BarChart(_createSampleData(state.chartData));
+          }
+          return Scaffold(
+              appBar: AppBar(
+                title: Text('Monthly Sales'),
+              ),
+              body: Container(
+                child: listWidgets,
+              ));
+        });
   }
 
   /// Create one series with sample hard coded data.
-  static List<charts.Series<OrdinalSales, String>> _createSampleData(List<dynamic> salesData) {
-
-
-    print(salesData);
+  static List<charts.Series<OrdinalSales, String>> _createSampleData(
+      List<dynamic> salesData) {
     List<OrdinalSales> data = [];
 
     for (var data2 in salesData) {
-      print(data2["month"]);
-      print("sales val ${data2["sales"]}");
-      data.add(     new OrdinalSales(data2["month"], data2["sales"] == 0 ? 0.00: data2["sales"]),);
+      data.add(
+        new OrdinalSales(
+            data2["month"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
+      );
     }
-
-
 
     return [
       new charts.Series<OrdinalSales, String>(
