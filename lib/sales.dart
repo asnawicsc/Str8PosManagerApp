@@ -1,7 +1,11 @@
 /// Bar chart example
+///
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'channel/channel.dart';
+import 'flutter_bloc/flutter_bloc.dart';
+import 'rms.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class SalesPage extends StatefulWidget {
   Channel channel;
@@ -12,50 +16,47 @@ class SalesPage extends StatefulWidget {
 
 class SalesPageState extends State<SalesPage> {
   Channel channel;
-
+  Widget listWidgets ;
   var result;
 
   @override
   void initState() {
     super.initState();
     channel = widget.channel;
+    listWidgets=    JumpingDotsProgressIndicator(
+      fontSize: 20.0,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> listWidgets = [];
+     RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
 
-    channel.on("daily_sales_reply", (Map payload)  {
-      result = payload["result"];
+    return BlocBuilder(
+        bloc: rmsBloc,
+        builder: (BuildContext context, RmsState state) {
+          print("state : ${state.chartData}");
 
-
-        listWidgets.add(
-          Container(
-            child: charts.BarChart(_createSampleData(result)),
-          ),
-        );
-
-    });
-    // turn into widget
-    //widget call stack
-    //put
-
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Daily Sales'),
-        ),
-        body: Container(child: Stack(children: listWidgets)));
+          if  (state.chartData.length > 0 ) {
+            listWidgets=
+                charts.BarChart(_createSampleData(state.chartData));
+          }
+          return Scaffold(
+              appBar: AppBar(
+                title: Text('Daily Sales'),
+              ),
+              body: Container(
+                child: listWidgets,
+              ));
+        });
   }
 
   /// Create one series with sample hard coded data.
   static List<charts.Series<OrdinalSales, String>> _createSampleData(
       List<dynamic> salesData) {
-    print(salesData);
     List<OrdinalSales> data = [];
 
     for (var data2 in salesData) {
-      print(data2["day"]);
-      print("sales val ${data2["sales"]}");
       data.add(
         new OrdinalSales(
             data2["day"], data2["sales"] == 0 ? 0.00 : data2["sales"]),

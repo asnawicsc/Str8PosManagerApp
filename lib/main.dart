@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'channel/channel.dart';
+import 'rms.dart';
+import 'flutter_bloc/flutter_bloc.dart';
 
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
+  RmsBloc rmsBloc = new RmsBloc();
   // This widget is the root of your application.
 
   @override
@@ -15,7 +19,9 @@ class MyApp extends StatelessWidget {
 
 
 
-    return MaterialApp(
+    return BlocProvider<RmsBloc>(
+        bloc: rmsBloc,
+        child:MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -30,7 +36,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Str8 Home Page'),
-    );
+    ));
   }
 }
 

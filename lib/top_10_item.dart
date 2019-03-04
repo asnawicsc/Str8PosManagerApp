@@ -13,7 +13,7 @@ class Top10SalesItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Daily Sales'),
+          title: Text('Top 10 Items'),
         ),
         body: Container(
           child:  charts.PieChart(_createSampleData(salesData), defaultRenderer: new charts.ArcRendererConfig(
@@ -26,7 +26,6 @@ class Top10SalesItem extends StatelessWidget {
   static List<charts.Series<LinearSales2, String>> _createSampleData(List<dynamic> salesData) {
 
 
-    print(salesData);
     List<LinearSales2> data = [];
 
     for (var data2 in salesData) {
@@ -34,8 +33,6 @@ class Top10SalesItem extends StatelessWidget {
       print("sales val ${data2["sales"]}");
       data.add(     new LinearSales2(data2["item"], double.parse(data2["sales"]) ),);
     }
-
-
 
     return [
       new charts.Series<LinearSales2, String>(
