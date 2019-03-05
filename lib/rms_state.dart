@@ -18,44 +18,44 @@ RmsState({
     return RmsState(chartData: []);
   }
 
-factory RmsState.gotData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotDailySalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotDailySalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotMonthlySalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotMonthlySalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotYearlySalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotYearlySalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotTop10SalesItemData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotTop10SalesItemData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotTodaySalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotTodaySalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotThisMonthSalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotThisMonthSalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotThisWeekSalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotThisWeekSalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotThisYearSalesData(data){
-  return RmsState(chartData: data);
+factory RmsState.gotThisYearSalesData(data , start_date, end_date){
+  return RmsState(chartData: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotDateRange(start_date,end_date){
-  return RmsState(startDate: start_date, endDate: end_date);
+factory RmsState.gotDateRange(data,start_date,end_date){
+  return RmsState(chartData: data,startDate: start_date, endDate: end_date);
 }
 
 

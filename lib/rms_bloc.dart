@@ -16,55 +16,56 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
     if (event is ReadData) {
       var data = event.result;
 
-      yield RmsState.gotData(data);
+      yield RmsState.gotData(data, currentState.startDate, currentState.endDate);
     }
     if (event is DailySales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotDailySalesData(data);
+      yield RmsState.gotDailySalesData(data, currentState.startDate, currentState.endDate);
     }
     if (event is MonthlySales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotMonthlySalesData(data);
+      yield RmsState.gotMonthlySalesData(data, currentState.startDate, currentState.endDate);
     }
     if (event is YearlySales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotYearlySalesData(data);
+      yield RmsState.gotYearlySalesData(data, currentState.startDate, currentState.endDate);
     }
 
     if (event is Top10SalesItem) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotTop10SalesItemData(data);
+      yield RmsState.gotTop10SalesItemData(data, currentState.startDate, currentState.endDate);
     }
     if (event is TodaySales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotTodaySalesData(data);
+      yield RmsState.gotTodaySalesData(data, currentState.startDate, currentState.endDate);
     }
     if (event is ThisMonthSales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotThisMonthSalesData(data);
+      yield RmsState.gotThisMonthSalesData(data, currentState.startDate, currentState.endDate);
     }
     if (event is ThisWeekSales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotThisWeekSalesData(data);
+      yield RmsState.gotThisWeekSalesData(data, currentState.startDate, currentState.endDate);
     }
     if (event is ThisYearSales) {
       var data = event.result;
       print("data: ${data}");
-      yield RmsState.gotThisYearSalesData(data);
+      yield RmsState.gotThisYearSalesData(data, currentState.startDate, currentState.endDate);
     }
 
     if (event is DateRange) {
+      var data = event.result;
       var start_date = event.start_date;
       var end_date = event.end_date;
 
-      yield RmsState.gotDateRange(start_date,end_date);
+      yield RmsState.gotDateRange(data,start_date,end_date);
     }
   }
 }

@@ -70,10 +70,11 @@ class ThisYearSales extends RmsEvent {
 }
 
 class DateRange extends RmsEvent {
+  List<dynamic> result;
   String start_date;
   String end_date;
 
 
-  DateRange({this.start_date,this.end_date});
+  DateRange({this.result,this.start_date,this.end_date});
 
 }

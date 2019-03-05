@@ -12,6 +12,7 @@ import 'this_week.dart';
 import 'this_year.dart';
 import 'package:intl/intl.dart';
 import 'rms.dart';
+import 'package:intl/intl_browser.dart';
 
 class MainSalesPage extends StatefulWidget {
   Channel channel;
@@ -70,10 +71,8 @@ class MainSalesPageState extends State<MainSalesPage> {
                             dateStart = formatter.format(datetimestart);
                             dateEnd = formatter.format(datetimeend);
 
-                            await channel.push("today_sales", {
-                              "date_start": dateStart,
-                              "date_end": dateEnd
-                            });
+                            await channel.push("today_sales",
+                                {"date_start": dateStart, "date_end": dateEnd});
 
                             channel.on("today_sales_reply", (Map payload) {
                               result5 = payload["result"];
@@ -91,34 +90,32 @@ class MainSalesPageState extends State<MainSalesPage> {
                         )),
                         Expanded(
                             child: new RaisedButton(
-                              child: Text('This Week'),
-                              onPressed: () async {
-                                var formatter = new DateFormat('yyyy-MM-dd');
-                                datetimestart = DateTime.now();
-                                datetimeend = DateTime.now();
+                          child: Text('This Week'),
+                          onPressed: () async {
+                            var formatter = new DateFormat('yyyy-MM-dd');
+                            datetimestart = DateTime.now();
+                            datetimeend = DateTime.now();
 
-                                dateStart = formatter.format(datetimestart);
-                                dateEnd = formatter.format(datetimeend);
+                            dateStart = formatter.format(datetimestart);
+                            dateEnd = formatter.format(datetimeend);
 
-                                await channel.push("this_week_sales", {
-                                  "date_start": dateStart,
-                                  "date_end": dateEnd
-                                });
+                            await channel.push("this_week_sales",
+                                {"date_start": dateStart, "date_end": dateEnd});
 
-                                channel.on("this_week_sales_reply", (Map payload) {
-                                  result3 = payload["result"];
+                            channel.on("this_week_sales_reply", (Map payload) {
+                              result3 = payload["result"];
 
-                                  rmsBloc.dispatch(ThisWeekSales(result: result3));
-                                });
+                              rmsBloc.dispatch(ThisWeekSales(result: result3));
+                            });
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ThisWeekSalesPage(channel: channel)),
-                                );
-                              },
-                            )),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ThisWeekSalesPage(channel: channel)),
+                            );
+                          },
+                        )),
                         Expanded(
                             child: new RaisedButton(
                           child: Text('This Month'),
@@ -130,10 +127,8 @@ class MainSalesPageState extends State<MainSalesPage> {
                             dateStart = formatter.format(datetimestart);
                             dateEnd = formatter.format(datetimeend);
 
-                            await channel.push("this_month_sales", {
-                              "date_start": dateStart,
-                              "date_end": dateEnd
-                            });
+                            await channel.push("this_month_sales",
+                                {"date_start": dateStart, "date_end": dateEnd});
 
                             channel.on("this_month_sales_reply", (Map payload) {
                               result6 = payload["result"];
@@ -160,10 +155,8 @@ class MainSalesPageState extends State<MainSalesPage> {
                             dateStart = formatter.format(datetimestart);
                             dateEnd = formatter.format(datetimeend);
 
-                            await channel.push("this_year_sales", {
-                              "date_start": dateStart,
-                              "date_end": dateEnd
-                            });
+                            await channel.push("this_year_sales",
+                                {"date_start": dateStart, "date_end": dateEnd});
 
                             channel.on("this_year_sales_reply", (Map payload) {
                               result3 = payload["result"];
@@ -190,23 +183,47 @@ class MainSalesPageState extends State<MainSalesPage> {
                     new MaterialButton(
                         color: Colors.deepOrangeAccent,
                         onPressed: () async {
+                          if (state.startDate == null) {
+                            setState(() {
+                              datetimestart = new DateTime.now();
+                            });
+                          } else {
+                            setState(() {
+
+                              datetimestart = DateTime.parse(state.startDate);
+                            });
+                          }
+
+                          print(datetimestart);
+
+                          if (state.endDate == null) {
+                            setState(() {
+                              datetimeend = new DateTime.now();
+                            });
+                          } else {
+                            setState(() {
+                              datetimeend = DateTime.parse(state.endDate);
+                            });
+                          }
+
+                          print(datetimeend);
+
                           final List<DateTime> picked =
                               await DateRagePicker.showDatePicker(
                                   context: context,
-                                  initialFirstDate: new DateTime.now(),
-                                  initialLastDate: (new DateTime.now())
-                                      .add(new Duration(days: 7)),
+                                  initialFirstDate: datetimestart,
+                                  initialLastDate: datetimeend,
                                   firstDate: new DateTime(2015),
                                   lastDate: new DateTime(2020));
                           if (picked != null && picked.length == 2) {
                             setState(() {
                               var formatter = new DateFormat('yyyy-MM-dd');
-                              datetimestart = picked.first;
-                              datetimeend = picked.last;
+
                               date_start = formatter.format(picked.first);
                               date_end = formatter.format(picked.last);
 
-                              rmsBloc.dispatch(DateRange(start_date: date_start, end_date: date_end));
+                              rmsBloc.dispatch(DateRange(
+                                  result: [], start_date: date_start,end_date: date_end));
                             });
                           }
                         },
@@ -216,79 +233,78 @@ class MainSalesPageState extends State<MainSalesPage> {
                       children: <Widget>[
                         Expanded(
                             child: new RaisedButton(
-                              child: Text('Daily Sales'),
-                              onPressed: () async {
-                                await channel.push("daily_sales", {
-                                  "date_start": date_start,
-                                  "date_end": date_end
-                                });
+                          child: Text('Daily Sales'),
+                          onPressed: () async {
+                            await channel.push("daily_sales", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
 
-                                channel.on("daily_sales_reply", (Map payload) {
-                                  result = payload["result"];
+                            channel.on("daily_sales_reply", (Map payload) {
+                              result = payload["result"];
 
-                                  rmsBloc.dispatch(DailySales(result: result));
-                                });
+                              rmsBloc.dispatch(DailySales(result: result));
+                            });
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SalesPage(channel: channel)),
-                                );
-                              },
-                            )),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      SalesPage(channel: channel)),
+                            );
+                          },
+                        )),
                         Expanded(
                             child: new RaisedButton(
-                              child: Text('Monthly Sales'),
-                              onPressed: () async {
-                                await channel.push("monthly_sales", {
-                                  "date_start": date_start,
-                                  "date_end": date_end
-                                });
+                          child: Text('Monthly Sales'),
+                          onPressed: () async {
+                            await channel.push("monthly_sales", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
 
-                                channel.on("monthly_sales_reply", (Map payload) {
-                                  result2 = payload["result"];
+                            channel.on("monthly_sales_reply", (Map payload) {
+                              result2 = payload["result"];
 
-                                  rmsBloc.dispatch(MonthlySales(result: result2));
-                                });
+                              rmsBloc.dispatch(MonthlySales(result: result2));
+                            });
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MonthlySalesPage(channel: channel)),
-                                );
-                              },
-                            )),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MonthlySalesPage(channel: channel)),
+                            );
+                          },
+                        )),
                         Expanded(
                             child: new RaisedButton(
-                              child: Text('Yearly Sales'),
-                              onPressed: () async {
-                                await channel.push("yearly_sales", {
-                                  "date_start": date_start,
-                                  "date_end": date_end
-                                });
+                          child: Text('Yearly Sales'),
+                          onPressed: () async {
+                            await channel.push("yearly_sales", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
 
-                                channel.on("yearly_sales_reply", (Map payload) {
-                                  result3 = payload["result"];
+                            channel.on("yearly_sales_reply", (Map payload) {
+                              result3 = payload["result"];
 
-                                  rmsBloc.dispatch(YearlySales(result: result3));
-                                });
+                              rmsBloc.dispatch(YearlySales(result: result3));
+                            });
 
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          YearlySalesPage(channel: channel)),
-                                );
-                              },
-                            )),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      YearlySalesPage(channel: channel)),
+                            );
+                          },
+                        )),
                       ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-
                         Expanded(
                             child: new RaisedButton(
                           child: Text('Top 10 Item'),
@@ -314,7 +330,6 @@ class MainSalesPageState extends State<MainSalesPage> {
                         )),
                       ],
                     )
-
                   ],
                 ),
               ));
