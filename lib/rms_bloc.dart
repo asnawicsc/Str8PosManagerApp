@@ -44,5 +44,20 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       print("data: ${data}");
       yield RmsState.gotTodaySalesData(data);
     }
+    if (event is ThisMonthSales) {
+      var data = event.result;
+      print("data: ${data}");
+      yield RmsState.gotThisMonthSalesData(data);
+    }
+    if (event is ThisWeekSales) {
+      var data = event.result;
+      print("data: ${data}");
+      yield RmsState.gotThisWeekSalesData(data);
+    }
+    if (event is ThisYearSales) {
+      var data = event.result;
+      print("data: ${data}");
+      yield RmsState.gotThisYearSalesData(data);
+    }
   }
 }

@@ -41,7 +41,7 @@ class YearlySalesPageState extends State<YearlySalesPage> {
           }
           return Scaffold(
               appBar: AppBar(
-                title: Text('Monthly Sales'),
+                title: Text('Yearly Sales'),
               ),
               body: Container(
                 child: listWidgets,
@@ -55,10 +55,20 @@ class YearlySalesPageState extends State<YearlySalesPage> {
     List<OrdinalSales> data = [];
 
     for (var data2 in salesData) {
-      data.add(
-        new OrdinalSales(
-            data2["year"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
-      );
+
+
+      try {
+        data.add(
+          new OrdinalSales(
+              data2["year"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
+        );
+
+      } catch(e1) {
+        print(e1);
+      }
+
+
+
     }
 
     return [

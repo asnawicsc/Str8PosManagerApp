@@ -45,3 +45,26 @@ class TodaySales extends RmsEvent {
   TodaySales({this.result});
 
 }
+
+class ThisMonthSales extends RmsEvent {
+  List<dynamic> result;
+
+
+  ThisMonthSales({this.result});
+
+}
+
+class ThisWeekSales extends RmsEvent {
+  List<dynamic> result;
+
+
+  ThisWeekSales({this.result});
+
+}
+class ThisYearSales extends RmsEvent {
+  List<dynamic> result;
+
+
+  ThisYearSales({this.result});
+
+}

@@ -38,6 +38,17 @@ factory RmsState.gotTodaySalesData(data){
   return RmsState(chartData: data);
 }
 
+factory RmsState.gotThisMonthSalesData(data){
+  return RmsState(chartData: data);
+}
+
+factory RmsState.gotThisWeekSalesData(data){
+  return RmsState(chartData: data);
+}
+
+factory RmsState.gotThisYearSalesData(data){
+  return RmsState(chartData: data);
+}
 
 
 

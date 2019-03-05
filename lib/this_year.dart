@@ -7,14 +7,14 @@ import 'flutter_bloc/flutter_bloc.dart';
 import 'rms.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
-class TodaySalesPage extends StatefulWidget {
+class ThisYearSalesPage extends StatefulWidget {
   Channel channel;
-  TodaySalesPage({@required this.channel});
+  ThisYearSalesPage({@required this.channel});
 
-  TodaySalesPageState createState() => TodaySalesPageState();
+  ThisYearSalesPageState createState() => ThisYearSalesPageState();
 }
 
-class TodaySalesPageState extends State<TodaySalesPage> {
+class ThisYearSalesPageState extends State<ThisYearSalesPage> {
   Channel channel;
   Widget listWidgets ;
   var result;
@@ -28,7 +28,6 @@ class TodaySalesPageState extends State<TodaySalesPage> {
 
   @override
   Widget build(BuildContext context) {
-
     RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
     listWidgets=    JumpingDotsProgressIndicator(
       fontSize: 20.0,
@@ -41,11 +40,10 @@ class TodaySalesPageState extends State<TodaySalesPage> {
           if  (state.chartData.length > 0 ) {
             listWidgets=
                 charts.BarChart(_createSampleData(state.chartData));
-
           }
           return Scaffold(
               appBar: AppBar(
-                title: Text('Today Sales'),
+                title: Text('This Year Sales'),
               ),
               body: Container(
                 child: listWidgets,
@@ -61,7 +59,7 @@ class TodaySalesPageState extends State<TodaySalesPage> {
     for (var data2 in salesData) {
       data.add(
         new OrdinalSales(
-            data2["day"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
+            data2["month"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
       );
     }
 
@@ -69,7 +67,7 @@ class TodaySalesPageState extends State<TodaySalesPage> {
       new charts.Series<OrdinalSales, String>(
         id: 'Sales',
         colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
-        domainFn: (OrdinalSales sales, _) => sales.day.toString(),
+        domainFn: (OrdinalSales sales, _) => sales.month.toString(),
         measureFn: (OrdinalSales sales, _) => sales.sales,
         data: data,
       )
@@ -79,8 +77,8 @@ class TodaySalesPageState extends State<TodaySalesPage> {
 
 /// Sample ordinal data type.
 class OrdinalSales {
-  final int day;
+  final int month;
   final double sales;
 
-  OrdinalSales(this.day, this.sales);
+  OrdinalSales(this.month, this.sales);
 }

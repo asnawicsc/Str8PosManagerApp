@@ -57,10 +57,18 @@ class SalesPageState extends State<SalesPage> {
     List<OrdinalSales> data = [];
 
     for (var data2 in salesData) {
-      data.add(
-        new OrdinalSales(
-            data2["day"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
-      );
+
+      try {
+        data.add(
+          new OrdinalSales(
+              data2["day"], data2["sales"] == 0 ? 0.00 : data2["sales"]),
+        );
+
+      } catch(e1) {
+        print(e1);
+      }
+
+
     }
 
     return [

@@ -7,6 +7,9 @@ import 'channel/channel.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import 'top_10_item.dart';
 import 'today_sales.dart';
+import 'this_month.dart';
+import 'this_week.dart';
+import 'this_year.dart';
 import 'package:intl/intl.dart';
 import 'rms.dart';
 
@@ -24,6 +27,7 @@ class MainSalesPageState extends State<MainSalesPage> {
   var result3;
   var result4;
   var result5;
+  var result6;
   String date_start;
   String date_end;
 
@@ -46,9 +50,139 @@ class MainSalesPageState extends State<MainSalesPage> {
               ),
               body: new Container(
                 child: new Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                            child: new RaisedButton(
+                          child: Text('Today'),
+                          onPressed: () async {
+                            var formatter = new DateFormat('yyyy-MM-dd');
+                            datetimestart = DateTime.now();
+                            datetimeend = DateTime.now();
+
+                            date_start = formatter.format(datetimestart);
+                            date_end = formatter.format(datetimeend);
+
+                            await channel.push("today_sales", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
+
+                            channel.on("today_sales_reply", (Map payload) {
+                              result5 = payload["result"];
+
+                              rmsBloc.dispatch(TodaySales(result: result5));
+                            });
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      TodaySalesPage(channel: channel)),
+                            );
+                          },
+                        )),
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('This Week'),
+                              onPressed: () async {
+                                var formatter = new DateFormat('yyyy-MM-dd');
+                                datetimestart = DateTime.now();
+                                datetimeend = DateTime.now();
+
+                                date_start = formatter.format(datetimestart);
+                                date_end = formatter.format(datetimeend);
+
+                                await channel.push("this_week_sales", {
+                                  "date_start": date_start,
+                                  "date_end": date_end
+                                });
+
+                                channel.on("this_week_sales_reply", (Map payload) {
+                                  result3 = payload["result"];
+
+                                  rmsBloc.dispatch(ThisWeekSales(result: result3));
+                                });
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ThisWeekSalesPage(channel: channel)),
+                                );
+                              },
+                            )),
+                        Expanded(
+                            child: new RaisedButton(
+                          child: Text('This Month'),
+                          onPressed: () async {
+                            var formatter = new DateFormat('yyyy-MM-dd');
+                            datetimestart = DateTime.now();
+                            datetimeend = DateTime.now();
+
+                            date_start = formatter.format(datetimestart);
+                            date_end = formatter.format(datetimeend);
+
+                            await channel.push("this_month_sales", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
+
+                            channel.on("this_month_sales_reply", (Map payload) {
+                              result6 = payload["result"];
+
+                              rmsBloc.dispatch(ThisMonthSales(result: result6));
+                            });
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ThisMonthSalesPage(channel: channel)),
+                            );
+                          },
+                        )),
+                        Expanded(
+                            child: new RaisedButton(
+                          child: Text('This Year'),
+                          onPressed: () async {
+                            var formatter = new DateFormat('yyyy-MM-dd');
+                            datetimestart = DateTime.now();
+                            datetimeend = DateTime.now();
+
+                            date_start = formatter.format(datetimestart);
+                            date_end = formatter.format(datetimeend);
+
+                            await channel.push("this_year_sales", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
+
+                            channel.on("this_year_sales_reply", (Map payload) {
+                              result3 = payload["result"];
+
+                              rmsBloc.dispatch(ThisYearSales(result: result3));
+                            });
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ThisYearSalesPage(channel: channel)),
+                            );
+                          },
+                        )),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(20.0),
+                      child: const Card(),
+                    ),
                     new Text("Date: ${date_start} - ${date_end} ",
                         textAlign: TextAlign.center),
                     new MaterialButton(
@@ -76,74 +210,92 @@ class MainSalesPageState extends State<MainSalesPage> {
                           }
                         },
                         child: new Text("Pick date range")),
-                    new RaisedButton(
-                      child: Text('Daily Sales'),
-                      onPressed: () async {
-                        await channel.push("daily_sales",
-                            {"date_start": date_start, "date_end": date_end});
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Daily Sales'),
+                              onPressed: () async {
+                                await channel.push("daily_sales", {
+                                  "date_start": date_start,
+                                  "date_end": date_end
+                                });
 
-                        channel.on("daily_sales_reply", (Map payload) {
-                          result = payload["result"];
+                                channel.on("daily_sales_reply", (Map payload) {
+                                  result = payload["result"];
 
-                          rmsBloc.dispatch(DailySales(result: result));
-                        });
+                                  rmsBloc.dispatch(DailySales(result: result));
+                                });
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  SalesPage(channel: channel)),
-                        );
-                      },
-                    ),
-                    new RaisedButton(
-                      child: Text('Monthly Sales'),
-                      onPressed: () async {
-                        await channel.push("monthly_sales",
-                            {"date_start": date_start, "date_end": date_end});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SalesPage(channel: channel)),
+                                );
+                              },
+                            )),
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Monthly Sales'),
+                              onPressed: () async {
+                                await channel.push("monthly_sales", {
+                                  "date_start": date_start,
+                                  "date_end": date_end
+                                });
 
-                        channel.on("monthly_sales_reply", (Map payload) {
-                          result2 = payload["result"];
+                                channel.on("monthly_sales_reply", (Map payload) {
+                                  result2 = payload["result"];
 
-                          rmsBloc.dispatch(MonthlySales(result: result2));
-                        });
+                                  rmsBloc.dispatch(MonthlySales(result: result2));
+                                });
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  MonthlySalesPage(channel: channel)),
-                        );
-                      },
-                    ),
-                    new RaisedButton(
-                      child: Text('Yearly Sales'),
-                      onPressed: () async {
-                        await channel.push("yearly_sales",
-                            {"date_start": date_start, "date_end": date_end});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MonthlySalesPage(channel: channel)),
+                                );
+                              },
+                            )),
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Yearly Sales'),
+                              onPressed: () async {
+                                await channel.push("yearly_sales", {
+                                  "date_start": date_start,
+                                  "date_end": date_end
+                                });
 
-                        channel.on("yearly_sales_reply", (Map payload) {
-                          result3 = payload["result"];
+                                channel.on("yearly_sales_reply", (Map payload) {
+                                  result3 = payload["result"];
 
-                          rmsBloc.dispatch(YearlySales(result: result3));
-                        });
+                                  rmsBloc.dispatch(YearlySales(result: result3));
+                                });
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  YearlySalesPage(channel: channel)),
-                        );
-                      },
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          YearlySalesPage(channel: channel)),
+                                );
+                              },
+                            )),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(child:  new RaisedButton(
+
+                        Expanded(
+                            child: new RaisedButton(
                           child: Text('Top 10 Item'),
                           onPressed: () async {
-                            await channel.push("top_10_item",
-                                {"date_start": date_start, "date_end": date_end});
+                            await channel.push("top_10_item", {
+                              "date_start": date_start,
+                              "date_end": date_end
+                            });
 
                             channel.on("top_10_item_reply", (Map payload) {
                               result4 = payload["result"];
@@ -158,37 +310,9 @@ class MainSalesPageState extends State<MainSalesPage> {
                                       Top10SalesItemPage(channel: channel)),
                             );
                           },
-                        ))
-                     ,
-                        Expanded(child: new RaisedButton(
-                        child: Text('Today'),
-                        onPressed: () async {
-
-                          var formatter = new DateFormat('yyyy-MM-dd');
-                          datetimestart = DateTime.now();
-                          datetimeend = DateTime.now();
-
-                          date_start = formatter.format(datetimestart);
-                          date_end = formatter.format(datetimeend);
-
-                          await channel.push("today_sales",
-                              {"date_start": date_start, "date_end": date_end});
-
-                          channel.on("today_sales_reply", (Map payload) {
-                            result5 = payload["result"];
-
-                            rmsBloc.dispatch(TodaySales(result: result5));
-                          });
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    TodaySalesPage(channel: channel)),
-                          );
-                        },
-                      )),
-                    ],)
+                        )),
+                      ],
+                    )
 
                   ],
                 ),

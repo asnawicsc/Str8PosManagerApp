@@ -7,14 +7,14 @@ import 'flutter_bloc/flutter_bloc.dart';
 import 'rms.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 
-class TodaySalesPage extends StatefulWidget {
+class ThisMonthSalesPage extends StatefulWidget {
   Channel channel;
-  TodaySalesPage({@required this.channel});
+  ThisMonthSalesPage({@required this.channel});
 
-  TodaySalesPageState createState() => TodaySalesPageState();
+  ThisMonthSalesPageState createState() => ThisMonthSalesPageState();
 }
 
-class TodaySalesPageState extends State<TodaySalesPage> {
+class ThisMonthSalesPageState extends State<ThisMonthSalesPage> {
   Channel channel;
   Widget listWidgets ;
   var result;
@@ -28,7 +28,6 @@ class TodaySalesPageState extends State<TodaySalesPage> {
 
   @override
   Widget build(BuildContext context) {
-
     RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
     listWidgets=    JumpingDotsProgressIndicator(
       fontSize: 20.0,
@@ -41,11 +40,10 @@ class TodaySalesPageState extends State<TodaySalesPage> {
           if  (state.chartData.length > 0 ) {
             listWidgets=
                 charts.BarChart(_createSampleData(state.chartData));
-
           }
           return Scaffold(
               appBar: AppBar(
-                title: Text('Today Sales'),
+                title: Text('This Month Sales'),
               ),
               body: Container(
                 child: listWidgets,
