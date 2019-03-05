@@ -59,5 +59,12 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       print("data: ${data}");
       yield RmsState.gotThisYearSalesData(data);
     }
+
+    if (event is DateRange) {
+      var start_date = event.start_date;
+      var end_date = event.end_date;
+
+      yield RmsState.gotDateRange(start_date,end_date);
+    }
   }
 }

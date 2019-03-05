@@ -3,10 +3,14 @@
 class RmsState {
 
 List<dynamic> chartData;
+String startDate;
+String endDate;
 
 
 RmsState({
-  this.chartData
+  this.chartData,
+  this.startDate,
+  this.endDate
 });
 
 
@@ -49,6 +53,11 @@ factory RmsState.gotThisWeekSalesData(data){
 factory RmsState.gotThisYearSalesData(data){
   return RmsState(chartData: data);
 }
+
+factory RmsState.gotDateRange(start_date,end_date){
+  return RmsState(startDate: start_date, endDate: end_date);
+}
+
 
 
 

@@ -68,3 +68,12 @@ class ThisYearSales extends RmsEvent {
   ThisYearSales({this.result});
 
 }
+
+class DateRange extends RmsEvent {
+  String start_date;
+  String end_date;
+
+
+  DateRange({this.start_date,this.end_date});
+
+}

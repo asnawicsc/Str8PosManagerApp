@@ -29,6 +29,8 @@ class TodaySalesPageState extends State<TodaySalesPage> {
   @override
   Widget build(BuildContext context) {
 
+
+
     RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
     listWidgets=    JumpingDotsProgressIndicator(
       fontSize: 20.0,

@@ -33,6 +33,8 @@ class MainSalesPageState extends State<MainSalesPage> {
 
   DateTime datetimestart;
   DateTime datetimeend;
+  String dateStart;
+  String dateEnd;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +56,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
@@ -65,12 +67,12 @@ class MainSalesPageState extends State<MainSalesPage> {
                             datetimestart = DateTime.now();
                             datetimeend = DateTime.now();
 
-                            date_start = formatter.format(datetimestart);
-                            date_end = formatter.format(datetimeend);
+                            dateStart = formatter.format(datetimestart);
+                            dateEnd = formatter.format(datetimeend);
 
                             await channel.push("today_sales", {
-                              "date_start": date_start,
-                              "date_end": date_end
+                              "date_start": dateStart,
+                              "date_end": dateEnd
                             });
 
                             channel.on("today_sales_reply", (Map payload) {
@@ -95,12 +97,12 @@ class MainSalesPageState extends State<MainSalesPage> {
                                 datetimestart = DateTime.now();
                                 datetimeend = DateTime.now();
 
-                                date_start = formatter.format(datetimestart);
-                                date_end = formatter.format(datetimeend);
+                                dateStart = formatter.format(datetimestart);
+                                dateEnd = formatter.format(datetimeend);
 
                                 await channel.push("this_week_sales", {
-                                  "date_start": date_start,
-                                  "date_end": date_end
+                                  "date_start": dateStart,
+                                  "date_end": dateEnd
                                 });
 
                                 channel.on("this_week_sales_reply", (Map payload) {
@@ -125,12 +127,12 @@ class MainSalesPageState extends State<MainSalesPage> {
                             datetimestart = DateTime.now();
                             datetimeend = DateTime.now();
 
-                            date_start = formatter.format(datetimestart);
-                            date_end = formatter.format(datetimeend);
+                            dateStart = formatter.format(datetimestart);
+                            dateEnd = formatter.format(datetimeend);
 
                             await channel.push("this_month_sales", {
-                              "date_start": date_start,
-                              "date_end": date_end
+                              "date_start": dateStart,
+                              "date_end": dateEnd
                             });
 
                             channel.on("this_month_sales_reply", (Map payload) {
@@ -155,12 +157,12 @@ class MainSalesPageState extends State<MainSalesPage> {
                             datetimestart = DateTime.now();
                             datetimeend = DateTime.now();
 
-                            date_start = formatter.format(datetimestart);
-                            date_end = formatter.format(datetimeend);
+                            dateStart = formatter.format(datetimestart);
+                            dateEnd = formatter.format(datetimeend);
 
                             await channel.push("this_year_sales", {
-                              "date_start": date_start,
-                              "date_end": date_end
+                              "date_start": dateStart,
+                              "date_end": dateEnd
                             });
 
                             channel.on("this_year_sales_reply", (Map payload) {
@@ -204,8 +206,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                               date_start = formatter.format(picked.first);
                               date_end = formatter.format(picked.last);
 
-                              print(date_start);
-                              print(date_end);
+                              rmsBloc.dispatch(DateRange(start_date: date_start, end_date: date_end));
                             });
                           }
                         },
