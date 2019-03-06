@@ -12,9 +12,10 @@ import 'this_week.dart';
 import 'this_year.dart';
 import 'package:intl/intl.dart';
 import 'rms.dart';
-import 'package:intl/intl_browser.dart';
 
 class MainSalesPage extends StatefulWidget {
+
+
   Channel channel;
   MainSalesPage({this.channel});
 
@@ -22,6 +23,10 @@ class MainSalesPage extends StatefulWidget {
 }
 
 class MainSalesPageState extends State<MainSalesPage> {
+
+
+
+
   Channel channel;
   var result;
   var result2;
@@ -29,17 +34,24 @@ class MainSalesPageState extends State<MainSalesPage> {
   var result4;
   var result5;
   var result6;
+  List<dynamic> result_branch;
+  List<String> branchStings = ['All Branch'];
   String date_start;
   String date_end;
-
+  var currentItemSelected = "{name: All Branch}";
   DateTime datetimestart;
   DateTime datetimeend;
   String dateStart;
   String dateEnd;
 
+  String dropdownValue;
+
+
+
   @override
   Widget build(BuildContext context) {
     channel = widget.channel;
+
 
     final RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
 
@@ -77,8 +89,10 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("today_sales_reply", (Map payload) {
                               result5 = payload["result"];
 
-                              rmsBloc.dispatch(TodaySales(result: result5));
+                              rmsBloc.dispatch(TodaySales(name: "This Day",result: result5));
                             });
+
+
 
                             Navigator.push(
                               context,
@@ -86,6 +100,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                                   builder: (context) =>
                                       TodaySalesPage(channel: channel)),
                             );
+
                           },
                         )),
                         Expanded(
@@ -105,7 +120,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("this_week_sales_reply", (Map payload) {
                               result3 = payload["result"];
 
-                              rmsBloc.dispatch(ThisWeekSales(result: result3));
+                              rmsBloc.dispatch(ThisWeekSales(name: "This Week",result: result3));
                             });
 
                             Navigator.push(
@@ -114,6 +129,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                                   builder: (context) =>
                                       ThisWeekSalesPage(channel: channel)),
                             );
+
                           },
                         )),
                         Expanded(
@@ -133,7 +149,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("this_month_sales_reply", (Map payload) {
                               result6 = payload["result"];
 
-                              rmsBloc.dispatch(ThisMonthSales(result: result6));
+                              rmsBloc.dispatch(ThisMonthSales(name: "This Month",result: result6));
                             });
 
                             Navigator.push(
@@ -142,6 +158,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                                   builder: (context) =>
                                       ThisMonthSalesPage(channel: channel)),
                             );
+
                           },
                         )),
                         Expanded(
@@ -161,7 +178,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("this_year_sales_reply", (Map payload) {
                               result3 = payload["result"];
 
-                              rmsBloc.dispatch(ThisYearSales(result: result3));
+                              rmsBloc.dispatch(ThisYearSales(name: "This Year",result: result3));
                             });
 
                             Navigator.push(
@@ -170,64 +187,186 @@ class MainSalesPageState extends State<MainSalesPage> {
                                   builder: (context) =>
                                       ThisYearSalesPage(channel: channel)),
                             );
+
                           },
                         )),
                       ],
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Yesterday'),
+                              onPressed: () async {
+
+                                setState(() {
+                                  var formatter = new DateFormat('yyyy-MM-dd');
+
+                                  date_start = formatter.format(new DateTime.now().subtract(new Duration(days: 1)));
+                                  date_end = formatter.format(new DateTime.now().subtract(new Duration(days: 1)));
+
+                                  rmsBloc.dispatch(DateRange(
+                                      result: [], start_date: date_start,end_date: date_end));
+                                });
+
+                              },
+                            )),
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Today'),
+                              onPressed: () async {
+
+                                setState(() {
+                                  var formatter = new DateFormat('yyyy-MM-dd');
+
+                                  date_start = formatter.format(new DateTime.now());
+                                  date_end = formatter.format(new DateTime.now());
+
+                                  rmsBloc.dispatch(DateRange(
+                                      result: [], start_date: date_start,end_date: date_end));
+                                });
+                
+                              },
+                            )),
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Last 7 Days'),
+                              onPressed: () async {
+                                setState(() {
+                                  var formatter = new DateFormat('yyyy-MM-dd');
+
+                                  date_start = formatter.format(new DateTime.now().subtract(new Duration(days: 6)));
+                                  date_end = formatter.format(new DateTime.now());
+
+                                  rmsBloc.dispatch(DateRange(
+                                      result: [], start_date: date_start,end_date: date_end));
+                                });
+                              },
+                            )),
+                        Expanded(
+                            child: new RaisedButton(
+                              child: Text('Last 30 Days'),
+                              onPressed: () async {
+                                setState(() {
+                                  var formatter = new DateFormat('yyyy-MM-dd');
+
+                                  date_start = formatter.format(new DateTime.now().subtract(new Duration(days: 29)));
+                                  date_end = formatter.format(new DateTime.now());
+
+                                  rmsBloc.dispatch(DateRange(
+                                      result: [], start_date: date_start,end_date: date_end));
+                                });
+                              },
+                            )),
+
+                      ],
+                    ),
                     Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(7.0),
                       child: const Card(),
                     ),
+
                     new Text("Date: ${date_start} - ${date_end} ",
                         textAlign: TextAlign.center),
-                    new MaterialButton(
-                        color: Colors.deepOrangeAccent,
-                        onPressed: () async {
-                          if (state.startDate == null) {
-                            setState(() {
-                              datetimestart = new DateTime.now();
-                            });
-                          } else {
-                            setState(() {
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                            child: new MaterialButton(
+                                color: Colors.deepOrangeAccent,
+                                onPressed: () async {
+                                  if (state.startDate == null) {
+                                    setState(() {
+                                      datetimestart = new DateTime.now();
+                                    });
+                                  } else {
+                                    setState(() {
 
-                              datetimestart = DateTime.parse(state.startDate);
-                            });
-                          }
+                                      datetimestart = DateTime.parse(state.startDate);
+                                    });
+                                  }
 
-                          print(datetimestart);
 
-                          if (state.endDate == null) {
-                            setState(() {
-                              datetimeend = new DateTime.now();
-                            });
-                          } else {
-                            setState(() {
-                              datetimeend = DateTime.parse(state.endDate);
-                            });
-                          }
 
-                          print(datetimeend);
+                                  if (state.endDate == null) {
+                                    setState(() {
+                                      datetimeend = new DateTime.now();
+                                    });
+                                  } else {
+                                    setState(() {
+                                      datetimeend = DateTime.parse(state.endDate);
+                                    });
+                                  }
 
-                          final List<DateTime> picked =
-                              await DateRagePicker.showDatePicker(
-                                  context: context,
-                                  initialFirstDate: datetimestart,
-                                  initialLastDate: datetimeend,
-                                  firstDate: new DateTime(2015),
-                                  lastDate: new DateTime(2020));
-                          if (picked != null && picked.length == 2) {
-                            setState(() {
-                              var formatter = new DateFormat('yyyy-MM-dd');
 
-                              date_start = formatter.format(picked.first);
-                              date_end = formatter.format(picked.last);
 
-                              rmsBloc.dispatch(DateRange(
-                                  result: [], start_date: date_start,end_date: date_end));
-                            });
-                          }
-                        },
-                        child: new Text("Pick date range")),
+                                  final List<DateTime> picked =
+                                  await DateRagePicker.showDatePicker(
+                                      context: context,
+                                      initialFirstDate: datetimestart,
+                                      initialLastDate: datetimeend,
+                                      firstDate: new DateTime(2015),
+                                      lastDate: new DateTime(2020));
+                                  if (picked != null && picked.length == 2) {
+                                    setState(() {
+                                      var formatter = new DateFormat('yyyy-MM-dd');
+
+                                      date_start = formatter.format(picked.first);
+                                      date_end = formatter.format(picked.last);
+
+                                      rmsBloc.dispatch(DateRange(
+                                          result: [], start_date: date_start,end_date: date_end));
+                                    });
+                                  }
+
+                                },
+                                child: new Text("Pick date range"))),
+
+
+
+                        Expanded(
+                            child: DropdownButton<String>(
+                              value: dropdownValue,
+                              onChanged: (String newValue) async {
+
+                                 channel.push("organization_branch", {
+                                  "organization_code": channel.user
+
+                                });
+
+                                channel.on("organization_branch_reply", (Map payload) {
+
+
+                                  setState(() {
+                                    result_branch = payload["result"];
+                                    print(result_branch);
+                                    for (var i in result_branch) {
+
+                                      branchStings.add(i["name"]);
+                                    }
+                                  });
+
+
+                                });
+                                setState(() {
+                                  dropdownValue = newValue;
+                                });
+                              },
+                              items: branchStings.map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+
+                                  child: Text(value)
+                                );
+                              }).toList(),
+                            ),
+                        )
+                      ],
+                    ),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -336,3 +475,4 @@ class MainSalesPageState extends State<MainSalesPage> {
         });
   }
 }
+

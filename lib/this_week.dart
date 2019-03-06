@@ -6,6 +6,11 @@ import 'channel/channel.dart';
 import 'flutter_bloc/flutter_bloc.dart';
 import 'rms.dart';
 import 'package:progress_indicators/progress_indicators.dart';
+import 'this_month.dart';
+import 'this_year.dart';
+import 'today_sales.dart';
+import 'package:intl/intl.dart';
+import 'main_sales.dart';
 
 class ThisWeekSalesPage extends StatefulWidget {
   Channel channel;
@@ -18,6 +23,20 @@ class ThisWeekSalesPageState extends State<ThisWeekSalesPage> {
   Channel channel;
   Widget listWidgets ;
   var result;
+
+  var result2;
+  var result3;
+  var result4;
+  var result5;
+  var result6;
+
+  String date_start;
+  String date_end;
+
+  DateTime datetimestart;
+  DateTime datetimeend;
+  String dateStart;
+  String dateEnd;
 
   @override
   void initState() {
@@ -35,15 +54,128 @@ class ThisWeekSalesPageState extends State<ThisWeekSalesPage> {
     return BlocBuilder(
         bloc: rmsBloc,
         builder: (BuildContext context, RmsState state) {
-          print("state : ${state.chartData}");
+
 
           if  (state.chartData.length > 0 ) {
             listWidgets=
-                charts.BarChart(_createSampleData(state.chartData));
+                charts.BarChart(_createSampleData(state.chartData),  animate: false);
           }
           return Scaffold(
               appBar: AppBar(
-                title: Text('This Week Sales'),
+                title: Text("${state.name}"),
+                actions: <Widget>[
+
+                  FlatButton(
+                    textColor: Colors.white,
+                    onPressed: () async {
+                      var formatter = new DateFormat('yyyy-MM-dd');
+                      datetimestart = DateTime.now();
+                      datetimeend = DateTime.now();
+
+                      dateStart = formatter.format(datetimestart);
+                      dateEnd = formatter.format(datetimeend);
+
+                      await channel.push("today_sales",
+                          {"date_start": dateStart, "date_end": dateEnd});
+
+                      channel.on("today_sales_reply", (Map payload) {
+                        result5 = payload["result"];
+
+                        rmsBloc.dispatch(TodaySales(name: "This Day",result: result5));
+                      });
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                TodaySalesPage(channel: channel)),
+                      );
+                      Navigator.pop(context);
+
+
+                    },
+                    child: Text("Today"),
+                    shape: CircleBorder(
+                        side: BorderSide(color: Colors.orangeAccent)),
+                  ),
+                  FlatButton(
+                    textColor: Colors.white,
+                    onPressed: () async {
+                      var formatter = new DateFormat('yyyy-MM-dd');
+                      datetimestart = DateTime.now();
+                      datetimeend = DateTime.now();
+
+                      dateStart = formatter.format(datetimestart);
+                      dateEnd = formatter.format(datetimeend);
+
+                      await channel.push("this_month_sales",
+                          {"date_start": dateStart, "date_end": dateEnd});
+
+                      channel.on("this_month_sales_reply", (Map payload) {
+                        result6 = payload["result"];
+
+                        rmsBloc.dispatch(ThisMonthSales(name: "This Month",result: result6));
+                      });
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ThisMonthSalesPage(channel: channel)),
+                      );
+                      Navigator.pop(context);
+
+
+                    },
+                    child: Text("Month"),
+                    shape: CircleBorder(
+                        side: BorderSide(color: Colors.orangeAccent)),
+                  ),
+                  FlatButton(
+                    textColor: Colors.white,
+                    onPressed: () async {
+                      var formatter = new DateFormat('yyyy-MM-dd');
+                      datetimestart = DateTime.now();
+                      datetimeend = DateTime.now();
+
+                      dateStart = formatter.format(datetimestart);
+                      dateEnd = formatter.format(datetimeend);
+
+                      await channel.push("this_year_sales",
+                          {"date_start": dateStart, "date_end": dateEnd});
+
+                      channel.on("this_year_sales_reply", (Map payload) {
+                        result3 = payload["result"];
+
+                        rmsBloc.dispatch(ThisYearSales(name: "This Year",result: result3));
+                      });
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                ThisYearSalesPage(channel: channel)),
+                      );
+                      Navigator.pop(context);
+
+
+                    },
+                    child: Text("Year"),
+                    shape: CircleBorder(
+                        side: BorderSide(color: Colors.orangeAccent)),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.home),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainSalesPage(channel: channel)),
+                      );
+
+
+                    },
+                  ),
+                ],
               ),
               body: Container(
                 child: listWidgets,

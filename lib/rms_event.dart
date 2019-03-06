@@ -2,7 +2,8 @@
 abstract class RmsEvent {}
 class ReadData extends RmsEvent {
 List<dynamic> result;
-ReadData({this.result});
+String name;
+ReadData({this.result, this.name});
 
 }
 
@@ -39,33 +40,37 @@ class Top10SalesItem extends RmsEvent {
 }
 
 class TodaySales extends RmsEvent {
+  String name;
   List<dynamic> result;
 
 
-  TodaySales({this.result});
+  TodaySales({this.name,this.result});
 
 }
 
 class ThisMonthSales extends RmsEvent {
+  String name;
   List<dynamic> result;
 
 
-  ThisMonthSales({this.result});
+  ThisMonthSales({this.name,this.result});
 
 }
 
 class ThisWeekSales extends RmsEvent {
   List<dynamic> result;
+  String name;
 
 
-  ThisWeekSales({this.result});
+  ThisWeekSales({this.name,this.result});
 
 }
 class ThisYearSales extends RmsEvent {
+  String name;
   List<dynamic> result;
 
 
-  ThisYearSales({this.result});
+  ThisYearSales({this.name,this.result});
 
 }
 
