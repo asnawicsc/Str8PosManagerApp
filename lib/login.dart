@@ -72,7 +72,12 @@ class _LoginPageState extends State<LoginPage> {
 
 
 
+ 
 
+                      _chatChannel.push("organization_branch", {
+                        "organization_code": _chatChannel.user
+
+                      });
 
 
                       Navigator.push(

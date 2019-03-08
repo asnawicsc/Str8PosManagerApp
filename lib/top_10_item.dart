@@ -36,19 +36,37 @@ class Top10SalesItemPageState extends State<Top10SalesItemPage> {
         bloc: rmsBloc,
         builder: (BuildContext context, RmsState state) {
           print("state : ${state.chartData}");
-
+          if  (state.chartData != null) {
           if  (state.chartData.length > 0 ) {
             listWidgets=
                 charts.PieChart(_createSampleData(state.chartData), defaultRenderer: new charts.ArcRendererConfig(
                     arcWidth: 60,
                     arcRendererDecorators: [new charts.ArcLabelDecorator()]));
           }
+
+          }
           return Scaffold(
               appBar: AppBar(
-                title: Text('Daily Sales'),
+                title: Text('Top 10 Item Sales'),
               ),
-              body: Container(
-                child: listWidgets,
+              body: SingleChildScrollView(
+
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                      child: listWidgets,
+                      color: Colors.white,
+                      height: 350.0,
+                      width: 300.0,
+                    ),
+                    Divider(),
+                    Text('Item Details'),
+                    TableList(channel: channel, rmsBloc: rmsBloc)
+                  ],
+                ),
+
               ));
         });
   }
@@ -91,4 +109,41 @@ class LinearSales2 {
   final double sales;
 
   LinearSales2(this.item, this.sales);
+}
+
+
+class TableList extends StatefulWidget {
+  var rmsBloc;
+
+  Channel channel;
+  TableList({this.rmsBloc, this.channel});
+
+  TableListState createState() => TableListState();
+}
+
+class TableListState extends State<TableList> {
+  @override
+  Widget build(BuildContext context) {
+    final RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
+    List<DataRow> dr = [];
+    for (var name in widget.rmsBloc.currentState.chartData) {
+      dr.add(DataRow(cells: <DataCell>[
+        DataCell(Text(name["item"].toString())),
+        DataCell(Text(name["sales"].toString()))
+      ]));
+    }
+
+    return DataTable(columns: <DataColumn>[
+      DataColumn(
+        label: Text("Item Name"),
+        numeric: false,
+        tooltip: "To display first name",
+      ),
+      DataColumn(
+        label: Text("Total Sales (RM)"),
+        numeric: false,
+        tooltip: "To display first name",
+      )
+    ], rows: dr);
+  }
 }

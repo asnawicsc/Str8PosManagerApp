@@ -33,18 +33,36 @@ class YearlySalesPageState extends State<YearlySalesPage> {
     return BlocBuilder(
         bloc: rmsBloc,
         builder: (BuildContext context, RmsState state) {
-          print("state : ${state.chartData}");
+          print("state : ${rmsBloc.currentState.chartData}");
 
-          if  (state.chartData.length > 0 ) {
-            listWidgets=
-                charts.BarChart(_createSampleData(state.chartData));
+          if  (rmsBloc.currentState.chartData != null) {
+            if (rmsBloc.currentState.chartData.length > 0 ) {
+              listWidgets = charts.BarChart(
+                  _createSampleData(rmsBloc.currentState.chartData), animate: false);
+            }
           }
           return Scaffold(
               appBar: AppBar(
                 title: Text('Yearly Sales'),
               ),
-              body: Container(
-                child: listWidgets,
+              body: SingleChildScrollView(
+
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Container(
+                      child: listWidgets,
+                      color: Colors.white,
+                      height: 300.0,
+                      width: 500.0,
+                    ),
+                    Divider(),
+                    Text('Sales Details'),
+                    TableList(channel: channel, rmsBloc: rmsBloc)
+                  ],
+                ),
+
               ));
         });
   }
@@ -89,4 +107,40 @@ class OrdinalSales {
   final double sales;
 
   OrdinalSales(this.year, this.sales);
+}
+
+class TableList extends StatefulWidget {
+  var rmsBloc;
+
+  Channel channel;
+  TableList({this.rmsBloc, this.channel});
+
+  TableListState createState() => TableListState();
+}
+
+class TableListState extends State<TableList> {
+  @override
+  Widget build(BuildContext context) {
+    final RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
+    List<DataRow> dr = [];
+    for (var name in widget.rmsBloc.currentState.chartData) {
+      dr.add(DataRow(cells: <DataCell>[
+        DataCell(Text(name["year"].toString())),
+        DataCell(Text(name["sales"].toString()))
+      ]));
+    }
+
+    return DataTable(columns: <DataColumn>[
+      DataColumn(
+        label: Text("Year"),
+        numeric: false,
+        tooltip: "To display first name",
+      ),
+      DataColumn(
+        label: Text("Total Sales (RM)"),
+        numeric: false,
+        tooltip: "To display first name",
+      )
+    ], rows: dr);
+  }
 }
