@@ -89,6 +89,8 @@ class SalesPageState extends State<SalesPage> {
 
     }
 
+
+
     return [
       new charts.Series<OrdinalSales, String>(
         id: 'Sales',

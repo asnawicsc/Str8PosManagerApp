@@ -3,6 +3,7 @@
 class RmsState {
 
 List<dynamic> chartData;
+List<dynamic> chartData2;
 List<dynamic> list;
 String startDate;
 String endDate;
@@ -13,6 +14,7 @@ String currentBranchName;
 RmsState({
   this.name,
   this.chartData,
+  this.chartData2,
   this.startDate,
   this.endDate,
   this.list,
@@ -24,12 +26,12 @@ RmsState({
     return RmsState(currentBranchName: "All Branch" ,list: [],chartData: []);
   }
 
-factory RmsState.gotData(currentBranchName,list,data , start_date, end_date){
-  return RmsState(currentBranchName: currentBranchName,list:list,chartData: data, startDate: start_date, endDate: end_date);
+factory RmsState.gotData(currentBranchName,list,data , start_date,data2, end_date){
+  return RmsState(currentBranchName: currentBranchName,list:list,chartData: data,chartData2: data, startDate: start_date, endDate: end_date);
 }
 
-factory RmsState.gotDailySalesData(currentBranchName,list,data , start_date, end_date){
-  return RmsState(currentBranchName: currentBranchName,list:list,chartData: data, startDate: start_date, endDate: end_date);
+factory RmsState.gotDailySalesData(currentBranchName,list,data ,data2, start_date, end_date){
+  return RmsState(currentBranchName: currentBranchName,list:list,chartData: data,chartData2: data2, startDate: start_date, endDate: end_date);
 }
 
 factory RmsState.gotMonthlySalesData(currentBranchName,list,data , start_date, end_date){

@@ -15,62 +15,63 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
   ) async* {
     if (event is ReadData) {
       var data = event.result;
+      var data2 = event.result2;
 
-
-      yield RmsState.gotData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
+      yield RmsState.gotData(currentState.currentBranchName,currentState.list,data,data2, currentState.startDate, currentState.endDate);
     }
     if (event is DailySales) {
       var data = event.result;
+      var data2 = event.result2;
 
 
-      print("data: ${data}");
-      yield RmsState.gotDailySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
+
+      yield RmsState.gotDailySalesData(currentState.currentBranchName,currentState.list,data,data2, currentState.startDate, currentState.endDate);
     }
     if (event is MonthlySales) {
       var data = event.result;
 
-      print("data: ${data}");
+
       yield RmsState.gotMonthlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
     }
     if (event is YearlySales) {
       var data = event.result;
 
-      print("data: ${data}");
+
       yield RmsState.gotYearlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
     }
 
     if (event is Top10SalesItem) {
       var data = event.result;
       var list = event.list;
-      print("data: ${data}");
+
       yield RmsState.gotTop10SalesItemData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
     }
     if (event is TodaySales) {
       var data = event.result;
 
       var name = event.name;
-      print("data: ${data}");
+
       yield RmsState.gotTodaySalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
     }
     if (event is ThisMonthSales) {
       var data = event.result;
       var list = event.list;
       var name = event.name;
-      print("data: ${data}");
+
       yield RmsState.gotThisMonthSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
     }
     if (event is ThisWeekSales) {
       var data = event.result;
 
       var name = event.name;
-      print("data: ${data}");
+
       yield RmsState.gotThisWeekSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
     }
     if (event is ThisYearSales) {
       var data = event.result;
 
       var name = event.name;
-      print("data: ${data}");
+
       yield RmsState.gotThisYearSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
     }
 
