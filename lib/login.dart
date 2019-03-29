@@ -15,6 +15,7 @@ class _LoginPageState extends State<LoginPage> {
    var password = TextEditingController();
 
   Widget build(BuildContext context)  {
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Login Page'),
@@ -71,14 +72,10 @@ class _LoginPageState extends State<LoginPage> {
                       _chatChannel.socket.onClose((msg) => print("socket.onClose: $msg"));
 
 
-
- 
-
                       _chatChannel.push("organization_branch", {
-                        "organization_code": _chatChannel.user
+                        "organization_code": "resertech"
 
                       });
-
 
                       Navigator.push(
                         context,

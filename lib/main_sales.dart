@@ -12,6 +12,7 @@ import 'this_week.dart';
 import 'this_year.dart';
 import 'package:intl/intl.dart';
 import 'rms.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 
 class MainSalesPage extends StatefulWidget {
   Channel channel;
@@ -27,7 +28,8 @@ class MainSalesPageState extends State<MainSalesPage> {
   var result4;
   var result5;
   var result6;
-
+  Channel channel;
+  Widget listWidgets;
   String date_start;
   String date_end;
 
@@ -37,7 +39,6 @@ class MainSalesPageState extends State<MainSalesPage> {
   String dateEnd;
   String organization_code;
   String branch_name;
-
   String dropdownValue;
 
   @override
@@ -77,8 +78,6 @@ class MainSalesPageState extends State<MainSalesPage> {
                   new Row(
                     children: <Widget>[
                       new Text("Date Range: ${date_start} - ${date_end} ",textAlign: TextAlign.start,),
-
-
 
                     ],
                   ),
@@ -128,8 +127,8 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("today_sales_reply", (Map payload) {
                               result5 = payload["result"];
 
-                              rmsBloc.dispatch(TodaySales(
-                                  name: "This Day", result: result5));
+//                              rmsBloc.dispatch(TodaySales(
+//                                  name: "This Day", result: result5));
                             });
 
                             Navigator.push(
@@ -407,7 +406,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("monthly_sales_reply", (Map payload) {
                               result2 = payload["result"];
 
-                              rmsBloc.dispatch(MonthlySales(result: result2));
+//                              rmsBloc.dispatch(MonthlySales(result: result2));
                             });
 
                             Navigator.push(
@@ -430,7 +429,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("yearly_sales_reply", (Map payload) {
                               result3 = payload["result"];
 
-                              rmsBloc.dispatch(YearlySales(result: result3));
+//                              rmsBloc.dispatch(YearlySales(result: result3));
                             });
 
                             Navigator.push(
@@ -458,7 +457,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("top_10_item_reply", (Map payload) {
                               result4 = payload["result"];
 
-                              rmsBloc.dispatch(Top10SalesItem(result: result4));
+//                              rmsBloc.dispatch(Top10SalesItem(result: result4));
                             });
 
                             Navigator.push(

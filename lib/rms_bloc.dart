@@ -17,85 +17,170 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var data = event.result;
       var data2 = event.result2;
 
-      yield RmsState.gotData(currentState.currentBranchName,currentState.list,data,data2, currentState.startDate, currentState.endDate);
+      yield RmsState.gotData(
+          currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          currentState.list,
+          data,
+          data2,
+          currentState.startDate,
+          currentState.endDate);
     }
     if (event is DailySales) {
       var data = event.result;
       var data2 = event.result2;
+      var rmsBloc;
 
 
-
-      yield RmsState.gotDailySalesData(currentState.currentBranchName,currentState.list,data,data2, currentState.startDate, currentState.endDate);
+      print("rere: ${event.result}");
+      yield RmsState.gotDailySalesData(
+          currentState.currentBranchName,
+          currentState.list,
+          currentState.username,
+          currentState.password,
+          data,
+          data2,
+          currentState.startDate,
+          currentState.endDate);
     }
-    if (event is MonthlySales) {
-      var data = event.result;
-
-
-      yield RmsState.gotMonthlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
-    }
-    if (event is YearlySales) {
-      var data = event.result;
-
-
-      yield RmsState.gotYearlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
-    }
-
-    if (event is Top10SalesItem) {
-      var data = event.result;
-      var list = event.list;
-
-      yield RmsState.gotTop10SalesItemData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
-    }
-    if (event is TodaySales) {
-      var data = event.result;
-
-      var name = event.name;
-
-      yield RmsState.gotTodaySalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-    }
-    if (event is ThisMonthSales) {
-      var data = event.result;
-      var list = event.list;
-      var name = event.name;
-
-      yield RmsState.gotThisMonthSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-    }
-    if (event is ThisWeekSales) {
-      var data = event.result;
-
-      var name = event.name;
-
-      yield RmsState.gotThisWeekSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-    }
-    if (event is ThisYearSales) {
-      var data = event.result;
-
-      var name = event.name;
-
-      yield RmsState.gotThisYearSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-    }
+//    if (event is MonthlySales) {
+//      var data = event.result;
+//
+//
+//      yield RmsState.gotMonthlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
+//    }
+//    if (event is YearlySales) {
+//      var data = event.result;
+//
+//
+//      yield RmsState.gotYearlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
+//    }
+//
+//    if (event is Top10SalesItem) {
+//      var data = event.result;
+//      var list = event.list;
+//
+//      yield RmsState.gotTop10SalesItemData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
+//    }
+//    if (event is TodaySales) {
+//      var data = event.result;
+//
+//      var name = event.name;
+//
+//      yield RmsState.gotTodaySalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
+//    }
+//    if (event is ThisMonthSales) {
+//      var data = event.result;
+//      var list = event.list;
+//      var name = event.name;
+//
+//      yield RmsState.gotThisMonthSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
+//    }
+//    if (event is ThisWeekSales) {
+//      var data = event.result;
+//
+//      var name = event.name;
+//
+//      yield RmsState.gotThisWeekSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
+//    }
+//    if (event is ThisYearSales) {
+//      var data = event.result;
+//
+//      var name = event.name;
+//
+//      yield RmsState.gotThisYearSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
+//    }
 
     if (event is DateRange) {
-      var data = event.result;
 
       var start_date = event.start_date;
       var end_date = event.end_date;
 
-      yield RmsState.gotDateRange(currentState.currentBranchName,currentState.list,data,start_date,end_date);
+      var _chatChannel;
+      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
+////
+//      _chatChannel
+//          .push("organization_branch", {"organization_code": "resertech"});
+//      print("eventcurent2: ${event.currentBranchName}");
+
+//      print("dsadsssad: ${currentBranchName}");
+//      _chatChannel.push("daily_sales", {
+//        "date_start": start_date,
+//        "date_end": end_date,
+//        "organization_code": "resertech",
+//        "branch_name": currentBranchName
+//      });
+
+
+      yield RmsState.gotDateRange(
+          currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          currentState.list,
+          currentState.chartData,
+          currentState.chartData2,
+          start_date,
+          end_date);
     }
 
     if (event is OrganzationBranch) {
       var list = event.list;
 
-
-      yield RmsState.gotOrganzationBranch(currentState.currentBranchName,list,currentState.chartData, currentState.startDate, currentState.endDate);
+      yield RmsState.gotOrganzationBranch(
+          currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          list,
+          currentState.chartData,
+          currentState.chartData2,
+          currentState.startDate,
+          currentState.endDate);
     }
 
     if (event is BranchName) {
-      var currentBranchName = event.currentBranchName;
+      var start_date = event.start_date;
+      var end_date = event.end_date;
+      var username = currentState.username;
+      var password = currentState.password;
+      String currentBranchName = event.currentBranchName;
+      var _chatChannel;
+
+      var data = currentState.chartData;
+      var data2 = currentState.chartData2;
 
 
-      yield RmsState.gotBranchName(currentBranchName,currentState.list,currentState.chartData, currentState.startDate, currentState.endDate);
+
+      _chatChannel = Channel(user: username, licenseKey: password);
+
+      _chatChannel.push("daily_sales", {
+        "date_start": start_date,
+        "date_end": end_date,
+        "organization_code": "resertech",
+        "branch_name": currentBranchName
+      });
+
+
+
+      yield RmsState.gotBranchName(
+          currentBranchName,
+          currentState.list,
+          data,
+          data2,
+          currentState.startDate,
+          currentState.endDate,
+          currentState.username,
+          currentState.password);
+
+
+    }
+
+    if (event is Login) {
+      var username = event.username;
+      var password = event.password;
+      var list = event.list;
+
+      yield RmsState.gotLogin(username, password, list);
     }
   }
 }

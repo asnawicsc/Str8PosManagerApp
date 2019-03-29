@@ -5,7 +5,9 @@ List<dynamic> result;
 List<dynamic> result2;
 List<dynamic> list;
 String name;
-ReadData({this.list,this.result,this.result2, this.name});
+String username;
+String password;
+ReadData({this.list,this.result,this.result2, this.name,this.username,this.password});
 
 }
 
@@ -13,10 +15,16 @@ class DailySales extends RmsEvent {
   List<dynamic> result;
   List<dynamic> result2;
   List<String> list;
-
-  DailySales({this.list,this.result,this.result2});
+  String start_date;
+  String end_date;
+  String username;
+  String password;
+  String currentBranchName;
+  DailySales({this.username,this.password,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date});
 
 }
+
+
 
 class MonthlySales extends RmsEvent {
   List<dynamic> result;
@@ -80,30 +88,53 @@ class ThisYearSales extends RmsEvent {
 
 class DateRange extends RmsEvent {
   List<dynamic> result;
+  List<dynamic> result2;
   String start_date;
   String end_date;
   List<String> list;
+  String username;
+  String password;
+  String currentBranchName;
 
-  DateRange({this.list,this.result,this.start_date,this.end_date});
+  DateRange({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
 
 }
 
 class OrganzationBranch extends RmsEvent {
   String currentBranchName;
   List<dynamic> result;
+  List<dynamic> result2;
   String start_date;
   String end_date;
+  String username;
+  String password;
   List<String> list;
-  OrganzationBranch({this.list});
+  OrganzationBranch({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
 
 }
 
 class BranchName extends RmsEvent {
   String currentBranchName;
   List<dynamic> result;
+  List<dynamic> result2;
   String start_date;
   String end_date;
   List<String> list;
-  BranchName({this.currentBranchName});
+  String username;
+  String password;
+  BranchName({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+
+}
+
+class Login extends RmsEvent {
+  String currentBranchName;
+  List<dynamic> result;
+  List<dynamic> result2;
+  String start_date;
+  String end_date;
+  String username;
+  String password;
+  List<String> list;
+  Login({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
 
 }
