@@ -17,9 +17,11 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context)  {
 
     return Scaffold(
-        appBar: AppBar(
+        appBar: new AppBar(
           title: Text('Login Page'),
+          backgroundColor: Color(0xFF444152),
         ),
+        backgroundColor: Color(0xFF444152),
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -71,11 +73,12 @@ class _LoginPageState extends State<LoginPage> {
                      _chatChannel.socket.onError((error) => print("socket.onError: $error"));
                       _chatChannel.socket.onClose((msg) => print("socket.onClose: $msg"));
 
-
                       _chatChannel.push("organization_branch", {
-                        "organization_code": "resertech"
+                        "organization_code": _chatChannel.user
 
                       });
+
+
 
                       Navigator.push(
                         context,

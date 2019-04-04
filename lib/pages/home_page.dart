@@ -31,9 +31,9 @@ class _HomePageState extends State<HomePage>
     new Tab(
         text: 'Today',
         icon: new Icon(Icons.today)), //icon和text的显示顺序已经内定，如需自定义，到child属性里面加吧
-    new Tab(text: 'Yesterday', icon: new Icon(Icons.weekend)),
-//    new Tab(text: 'Last 7',icon: new Icon(Icons.view_week)),
-//    new Tab(text: 'Costume',icon: new Icon(Icons.loop)),
+    new Tab(text: "Y'day", icon: new Icon(Icons.assignment_return)),
+    new Tab(text: 'Last 7',icon: new Icon(Icons.view_week)),
+    new Tab(text: 'Option',icon: new Icon(Icons.loop)),
   ];
 
   //定义底部导航Tab
@@ -74,6 +74,39 @@ class _HomePageState extends State<HomePage>
 //            branchStings = ["All Branch"];
 //          }
 
+          channel.on("daily_sales_reply_all", (Map payload) {
+
+
+
+
+            rmsBloc.dispatch(DailySalesAll( total_data1: payload["result"],total_data2: payload["result2"],total_data3: payload["result3"]));
+
+          });
+
+          List total_data1 = [];
+          List total_data2 = [];
+          List total_data3 = [];
+
+          if (rmsBloc.currentState.total_data1 != null) {
+            total_data1 = rmsBloc.currentState.total_data1;
+          } else {
+            total_data1 = [];
+          }
+
+          if (rmsBloc.currentState.total_data2 != null) {
+            total_data2 = rmsBloc.currentState.total_data2;
+          } else {
+            total_data2 = [];
+          }
+
+          if (rmsBloc.currentState.total_data3 != null) {
+            total_data3 = rmsBloc.currentState.total_data3;
+          } else {
+            total_data3 = [];
+          }
+
+
+
 
 
 
@@ -88,6 +121,8 @@ class _HomePageState extends State<HomePage>
             } else {
               branchStings = ["All Branch"];
             }
+
+
 
             rmsBloc.dispatch(OrganzationBranch(list: branchStings));
           });
@@ -109,9 +144,10 @@ class _HomePageState extends State<HomePage>
           }
 
 
+
           return new Scaffold(
               appBar: new AppBar(
-                backgroundColor: Colors.deepOrange,
+                  backgroundColor: Color(0xFF444152),
                 title: new Text('Home'),
                 actions: <Widget>[
                   new Column(
@@ -124,8 +160,10 @@ class _HomePageState extends State<HomePage>
                             "${rmsBloc.currentState.startDate} - ${rmsBloc.currentState.endDate} ",
                             textAlign: TextAlign.start,
                           ),
+
                         ],
                       ),
+
                     ],
                   )
                 ],
@@ -136,8 +174,8 @@ class _HomePageState extends State<HomePage>
                   children: <Widget>[
                     new UserAccountsDrawerHeader(
                       //Material内置控件
-                      accountName: new Text('CYC'), //用户名
-                      accountEmail: new Text('example@126.com'), //用户邮箱
+                      accountName: new Text(rmsBloc.currentState.username), //用户名
+                      accountEmail: new Text('resertech@gmail.com'), //用户邮箱
                       currentAccountPicture: new GestureDetector(
                         //用户头像
                         onTap: () => print('current user'),
@@ -148,62 +186,26 @@ class _HomePageState extends State<HomePage>
                         ),
                       ),
                       otherAccountsPictures: <Widget>[
-                        //粉丝头像
-                        new GestureDetector(
-                          //手势探测器，可以识别各种手势，这里只用到了onTap
-                          onTap: () =>
-                              print('other user'), //暂且先打印一下信息吧，以后再添加跳转页面的逻辑
-                          child: new CircleAvatar(
-                            backgroundImage: new NetworkImage(
-                                'https://upload.jianshu.io/users/upload_avatars/10878817/240ab127-e41b-496b-80d6-fc6c0c99f291?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'),
-                          ),
-                        ),
-                        new GestureDetector(
-                          onTap: () => print('other user'),
-                          child: new CircleAvatar(
-                            backgroundImage: new NetworkImage(
-                                'https://upload.jianshu.io/users/upload_avatars/8346438/e3e45f12-b3c2-45a1-95ac-a608fa3b8960?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'),
-                          ),
-                        ),
+
+
                       ],
-                      decoration: new BoxDecoration(
-                        //用一个BoxDecoration装饰器提供背景图片
-                        image: new DecorationImage(
-                          fit: BoxFit.fill,
-                          // image: new NetworkImage('https://raw.githubusercontent.com/flutter/website/master/_includes/code/layout/lakes/images/lake.jpg')
-                          //可以试试图片调取自本地。调用本地资源，需要到pubspec.yaml中配置文件路径
-                          image: new ExactAssetImage('images/lake.jpg'),
-                        ),
-                      ),
+
+
                     ),
                     new ListTile(
                         //第一个功能项
-                        title: new Text('First Page'),
-                        trailing: new Icon(Icons.arrow_upward),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new SidebarPage('First Page')));
-                        }),
-                    new ListTile(
-                        //第二个功能项
-                        title: new Text('Second Page'),
+                        title: new Text('View Setting'),
                         trailing: new Icon(Icons.arrow_right),
                         onTap: () {
                           Navigator.of(context).pop();
-                          Navigator.of(context).push(new MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  new SidebarPage('Second Page')));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SidebarPage()),
+                          );
                         }),
-                    new ListTile(
-                        //第二个功能项
-                        title: new Text('Second Page'),
-                        trailing: new Icon(Icons.arrow_right),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pushNamed('/a');
-                        }),
+
                     new Divider(), //分割线控件
                     new ListTile(
                       //退出按钮
@@ -217,14 +219,16 @@ class _HomePageState extends State<HomePage>
               body: new TabBarView(controller: _bottomNavigation, children: [
                 //注意顺序与TabBar保持一直
                 new News(
-                    data: branchStings, channel: widget.channel, bloc: rmsBloc),
+                    data: branchStings,total1: total_data1,total2: total_data2,total3: total_data3, channel: widget.channel, bloc: rmsBloc),
                 new News2(
-                    data: branchStings, channel: widget.channel, bloc: rmsBloc),
-//                new News3(data: branchStings,channel: channel),
-//                new News4(data: branchStings,channel: channel),
+                    data: branchStings,total1: total_data1,total2: total_data2,total3: total_data3, channel: widget.channel, bloc: rmsBloc),
+                 new News3(
+                    data: branchStings,total1: total_data1,total2: total_data2,total3: total_data3, channel: widget.channel, bloc: rmsBloc),
+                new News4(
+                    data: branchStings,total1: total_data1,total2: total_data2,total3: total_data3, channel: widget.channel, bloc: rmsBloc),
               ]),
               bottomNavigationBar: new Material(
-                color: Colors.deepOrange, //底部导航栏主题颜色
+                color: Color(0xFF444152),
                 child: new TabBar(
                   controller: _bottomNavigation,
                   tabs: _bottomTabs,

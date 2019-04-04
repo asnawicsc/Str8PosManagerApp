@@ -32,8 +32,13 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var data2 = event.result2;
       var rmsBloc;
 
+      var _chatChannel;
+      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
 
-      print("rere: ${event.result}");
+
+//
+//
+//      print("rere: ${event.result}");
       yield RmsState.gotDailySalesData(
           currentState.currentBranchName,
           currentState.list,
@@ -96,9 +101,11 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
 
       var start_date = event.start_date;
       var end_date = event.end_date;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
 
-      var _chatChannel;
-      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
+//      var _chatChannel;
+//      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
 ////
 //      _chatChannel
 //          .push("organization_branch", {"organization_code": "resertech"});
@@ -113,7 +120,7 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
 //      });
 
 
-      yield RmsState.gotDateRange(
+      yield RmsState.gotDateRange(showTable,showGraph,
           currentState.username,
           currentState.password,
           currentState.currentBranchName,
@@ -126,8 +133,10 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
 
     if (event is OrganzationBranch) {
       var list = event.list;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
 
-      yield RmsState.gotOrganzationBranch(
+      yield RmsState.gotOrganzationBranch(showTable,showGraph,
           currentState.username,
           currentState.password,
           currentState.currentBranchName,
@@ -144,25 +153,37 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var username = currentState.username;
       var password = currentState.password;
       String currentBranchName = event.currentBranchName;
+      var total_data1 = currentState.total_data1;
+      var total_data2 = currentState.total_data2;
+
+
+//
+//
       var _chatChannel;
-
-      var data = currentState.chartData;
-      var data2 = currentState.chartData2;
-
-
-
       _chatChannel = Channel(user: username, licenseKey: password);
+//
+//      _chatChannel.push("daily_sales", {
+//        "date_start": start_date,
+//        "date_end": end_date,
+//        "organization_code": _chatChannel.user,
+//        "branch_name": currentBranchName
+//      });
 
-      _chatChannel.push("daily_sales", {
+
+      _chatChannel.push("daily_sales_all", {
         "date_start": start_date,
         "date_end": end_date,
-        "organization_code": "resertech",
-        "branch_name": currentBranchName
+        "organization_code": _chatChannel.user,
       });
 
 
+      var data = currentState.chartData;
+      var data2 = currentState.chartData2;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
 
-      yield RmsState.gotBranchName(
+
+      yield RmsState.gotBranchName(showTable,showGraph,total_data1, total_data2,
           currentBranchName,
           currentState.list,
           data,
@@ -179,8 +200,51 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var username = event.username;
       var password = event.password;
       var list = event.list;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
 
-      yield RmsState.gotLogin(username, password, list);
+      yield RmsState.gotLogin(showTable,showGraph,username, password, list, currentState.currentBranchName, currentState.chartData,
+          currentState.chartData2,
+          currentState.startDate,
+          currentState.endDate
+       );
+    }
+
+    if (event is DailySalesAll) {
+      var total_data1 = event.total_data1;
+      var total_data2 = event.total_data2;
+      var total_data3 = event.total_data3;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
+
+
+      yield RmsState.gotDailySalesAll(showTable,showGraph,total_data1, total_data2,total_data3, currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          currentState.list,
+          currentState.chartData,
+          currentState.chartData2,
+          currentState.startDate,
+          currentState.endDate);
+
+    }
+
+    if (event is Setting) {
+      var showTable = event.showTable;
+      var showGraph = event.showGraph;
+      var total_data1 = currentState.total_data1;
+      var total_data2 = currentState.total_data2;
+
+
+      yield RmsState.gotSetting(showTable, showGraph,total_data1,total_data2, currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          currentState.list,
+          currentState.chartData,
+          currentState.chartData2,
+          currentState.startDate,
+          currentState.endDate);
+
     }
   }
 }

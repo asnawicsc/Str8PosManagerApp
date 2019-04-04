@@ -7,14 +7,17 @@ List<dynamic> list;
 String name;
 String username;
 String password;
-ReadData({this.list,this.result,this.result2, this.name,this.username,this.password});
+String currentBranchName;
+String start_date;
+String end_date;
+ReadData({this.username,this.password,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date});
 
 }
 
 class DailySales extends RmsEvent {
   List<dynamic> result;
   List<dynamic> result2;
-  List<String> list;
+  List<dynamic> list;
   String start_date;
   String end_date;
   String username;
@@ -117,12 +120,14 @@ class BranchName extends RmsEvent {
   String currentBranchName;
   List<dynamic> result;
   List<dynamic> result2;
+  List<dynamic> total_data1;
+  List<dynamic> total_data2;
   String start_date;
   String end_date;
   List<String> list;
   String username;
   String password;
-  BranchName({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+  BranchName({this.total_data1,this.total_data2,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
 
 }
 
@@ -136,5 +141,40 @@ class Login extends RmsEvent {
   String password;
   List<String> list;
   Login({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+
+}
+
+class DailySalesAll extends RmsEvent {
+  List<dynamic> total_data1;
+  List<dynamic> total_data2;
+  List<dynamic> total_data3;
+  String currentBranchName;
+  List<dynamic> result;
+  List<dynamic> result2;
+  String start_date;
+  String end_date;
+  List<String> list;
+  String username;
+  String password;
+
+  DailySalesAll({this.total_data1,this.total_data2,this.total_data3,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+
+}
+
+class Setting extends RmsEvent {
+  bool showTable;
+  bool showGraph;
+  List<dynamic> total_data1;
+  List<dynamic> total_data2;
+  String currentBranchName;
+  List<dynamic> result;
+  List<dynamic> result2;
+  String start_date;
+  String end_date;
+  List<String> list;
+  String username;
+  String password;
+
+  Setting({this.showGraph,this.showTable,this.total_data1,this.total_data2,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
 
 }

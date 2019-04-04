@@ -57,7 +57,7 @@ class MainSalesPageState extends State<MainSalesPage> {
        branchStings = [];
       }
 
-      rmsBloc.dispatch(OrganzationBranch(list: branchStings));
+//      rmsBloc.dispatch(OrganzationBranch(list: branchStings));
     });
     return BlocBuilder(
         bloc: rmsBloc,
@@ -244,10 +244,10 @@ class MainSalesPageState extends State<MainSalesPage> {
                               date_end = formatter.format(new DateTime.now()
                                   .subtract(new Duration(days: 1)));
 
-                              rmsBloc.dispatch(DateRange(
-                                  result: [],
-                                  start_date: date_start,
-                                  end_date: date_end));
+//                              rmsBloc.dispatch(DateRange(
+//                                  result: [],
+//                                  start_date: date_start,
+//                                  end_date: date_end));
                             });
                           },
                         )),
@@ -260,11 +260,11 @@ class MainSalesPageState extends State<MainSalesPage> {
 
                               date_start = formatter.format(new DateTime.now());
                               date_end = formatter.format(new DateTime.now());
-
-                              rmsBloc.dispatch(DateRange(
-                                  result: [],
-                                  start_date: date_start,
-                                  end_date: date_end));
+//
+//                              rmsBloc.dispatch(DateRange(
+//                                  result: [],
+//                                  start_date: date_start,
+//                                  end_date: date_end));
                             });
                           },
                         )),
@@ -278,11 +278,11 @@ class MainSalesPageState extends State<MainSalesPage> {
                               date_start = formatter.format(new DateTime.now()
                                   .subtract(new Duration(days: 6)));
                               date_end = formatter.format(new DateTime.now());
-
-                              rmsBloc.dispatch(DateRange(
-                                  result: [],
-                                  start_date: date_start,
-                                  end_date: date_end));
+//
+//                              rmsBloc.dispatch(DateRange(
+//                                  result: [],
+//                                  start_date: date_start,
+//                                  end_date: date_end));
                             });
                           },
                         )),
@@ -297,10 +297,10 @@ class MainSalesPageState extends State<MainSalesPage> {
                                   .subtract(new Duration(days: 29)));
                               date_end = formatter.format(new DateTime.now());
 
-                              rmsBloc.dispatch(DateRange(
-                                  result: [],
-                                  start_date: date_start,
-                                  end_date: date_end));
+//                              rmsBloc.dispatch(DateRange(
+//                                  result: [],
+//                                  start_date: date_start,
+//                                  end_date: date_end));
                             });
                           },
                         )),
@@ -357,10 +357,10 @@ class MainSalesPageState extends State<MainSalesPage> {
                                           formatter.format(picked.first);
                                       date_end = formatter.format(picked.last);
 
-                                      rmsBloc.dispatch(DateRange(
-                                          result: [],
-                                          start_date: date_start,
-                                          end_date: date_end));
+//                                      rmsBloc.dispatch(DateRange(
+//                                          result: [],
+//                                          start_date: date_start,
+//                                          end_date: date_end));
                                     });
                                   }
                                 },
@@ -383,7 +383,7 @@ class MainSalesPageState extends State<MainSalesPage> {
                             channel.on("daily_sales_reply", (Map payload) {
                               result = payload["result"];
 
-                              rmsBloc.dispatch(DailySales(result: result));
+//                              rmsBloc.dispatch(DailySales(result: result));
                             });
 
                             Navigator.push(
@@ -518,11 +518,11 @@ class BranchListState extends State<BranchList> {
                   textAlign: TextAlign.center),
               value: dropdownValue,
               onChanged: (String newValue) {
-                setState(() {
-                  dropdownValue = newValue;
-                  print(dropdownValue);
-                  rmsBloc.dispatch(BranchName(currentBranchName: dropdownValue));
-                });
+//                setState(() {
+//                  dropdownValue = newValue;
+//                  print(dropdownValue);
+//                  rmsBloc.dispatch(BranchName(currentBranchName: dropdownValue));
+//                });
               },
               style: new TextStyle(
                 color: Colors.red,

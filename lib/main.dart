@@ -54,6 +54,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Login Page'),
+          backgroundColor: Color(0xFF444152),
         ),
         body: SafeArea(
             child: ListView(
@@ -68,8 +69,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 50.0),
             TextField(
+
               controller: username,
               decoration: InputDecoration(
+                fillColor: Color(0xFF444152),
+
                 labelText: 'Username',
                 filled: true,
               ),
@@ -78,7 +82,10 @@ class _LoginPageState extends State<LoginPage> {
             TextField(
               controller: password,
               decoration: InputDecoration(
+                fillColor: Color(0xFF444152),
+
                 labelText: 'Password',
+
                 filled: true,
               ),
               obscureText: true,
@@ -86,6 +93,8 @@ class _LoginPageState extends State<LoginPage> {
             ButtonBar(
               children: <Widget>[
                 FlatButton(
+                  color: Color(0xFF444152),
+                  textColor: Color(0xFFFFFFFFF),
                   child: Text('CANCEL'),
                   onPressed: () {
                     username.clear();
@@ -93,11 +102,40 @@ class _LoginPageState extends State<LoginPage> {
                   },
                 ),
                 RaisedButton(
+                  color: Color(0xFF444152),
+                    textColor: Color(0xFFFFFFFFF),
                     child: Text('LOGIN'),
                     onPressed: () {
+
+                    print("user: ${username.text}");
+
+                    if  (username.text.isEmpty  ){
+
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            // return object of type Dialog
+                            return AlertDialog(
+                              title: new Text("Warning"),
+                              content: new Text("Please key In Username/Password"),
+                              actions: <Widget>[
+                                // usually buttons at the bottom of the dialog
+                                new FlatButton(
+                                  child: new Text("Close"),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+
+
+                    }
+                    else {
                       _chatChannel = Channel(
                           user: username.text, licenseKey: password.text);
-
 
 
                       rmsBloc.dispatch(Login(
@@ -111,7 +149,6 @@ class _LoginPageState extends State<LoginPage> {
 
                       _chatChannel.push("organization_branch", {
                         "organization_code": _chatChannel.user
-
                       });
 
 
@@ -121,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (context) =>
                                 HomePage(channel: _chatChannel)),
                       );
-
+                    }
 //                          Navigator.push(
 //                            context,
 //                            MaterialPageRoute(builder: (context) => MainSalesPage(channel: _chatChannel)),
