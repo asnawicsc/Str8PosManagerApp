@@ -103,16 +103,32 @@ class DateRange extends RmsEvent {
 
 }
 
+class MonthRange extends RmsEvent {
+  List<dynamic> result;
+  List<dynamic> result2;
+  String start_month;
+  String end_month;
+  List<String> list;
+  String username;
+  String password;
+  String currentBranchName;
+
+  MonthRange({this.currentBranchName,this.list,this.result,this.result2,this.start_month,this.end_month,this.username,this.password});
+
+}
+
 class OrganzationBranch extends RmsEvent {
   String currentBranchName;
   List<dynamic> result;
   List<dynamic> result2;
   String start_date;
   String end_date;
+  String start_month;
+  String end_month;
   String username;
   String password;
   List<String> list;
-  OrganzationBranch({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+  OrganzationBranch({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.start_month,this.end_month,this.username,this.password});
 
 }
 
@@ -124,10 +140,12 @@ class BranchName extends RmsEvent {
   List<dynamic> total_data2;
   String start_date;
   String end_date;
+  String start_month;
+  String end_month;
   List<String> list;
   String username;
   String password;
-  BranchName({this.total_data1,this.total_data2,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+  BranchName({this.total_data1,this.total_data2,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.start_month,this.end_month,this.username,this.password});
 
 }
 
@@ -137,10 +155,12 @@ class Login extends RmsEvent {
   List<dynamic> result2;
   String start_date;
   String end_date;
+  String start_month;
+  String end_month;
   String username;
   String password;
   List<String> list;
-  Login({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+  Login({this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.start_month,this.end_month,this.username,this.password});
 
 }
 
@@ -161,6 +181,23 @@ class DailySalesAll extends RmsEvent {
 
 }
 
+class MonthlySalesAll extends RmsEvent {
+  List<dynamic> total_data4;
+  List<dynamic> total_data5;
+  List<dynamic> total_data6;
+  String currentBranchName;
+  List<dynamic> result;
+  List<dynamic> result2;
+  String start_month;
+  String end_month;
+  List<String> list;
+  String username;
+  String password;
+
+  MonthlySalesAll({this.total_data4,this.total_data5,this.total_data6,this.currentBranchName,this.list,this.result,this.result2,this.start_month,this.end_month,this.username,this.password});
+
+}
+
 class Setting extends RmsEvent {
   bool showTable;
   bool showGraph;
@@ -171,10 +208,12 @@ class Setting extends RmsEvent {
   List<dynamic> result2;
   String start_date;
   String end_date;
+  String start_month;
+  String end_month;
   List<String> list;
   String username;
   String password;
 
-  Setting({this.showGraph,this.showTable,this.total_data1,this.total_data2,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.username,this.password});
+  Setting({this.showGraph,this.showTable,this.total_data1,this.total_data2,this.currentBranchName,this.list,this.result,this.result2,this.start_date,this.end_date,this.start_month,this.end_month,this.username,this.password});
 
 }

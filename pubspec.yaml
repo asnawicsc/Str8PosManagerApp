@@ -21,6 +21,8 @@ dependencies:
       url: https://github.com/gmlewis/phoenix_wings
   charts_flutter: ^0.5.0
   date_range_picker: ^1.0.3
+  flutter_localizations:
+    sdk: flutter
 
 
 

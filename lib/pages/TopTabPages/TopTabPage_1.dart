@@ -338,6 +338,7 @@ class _NewsListState extends State<NewsList> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
+
                 visibilityObs == true ? Container(
                   child: listWidgets,
                   color: Colors.white,

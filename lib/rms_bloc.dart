@@ -131,6 +131,40 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
           end_date);
     }
 
+    if (event is MonthRange) {
+
+      var start_month = event.start_month;
+      var end_month = event.end_month;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
+
+//      var _chatChannel;
+//      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
+////
+//      _chatChannel
+//          .push("organization_branch", {"organization_code": "resertech"});
+//      print("eventcurent2: ${event.currentBranchName}");
+
+//      print("dsadsssad: ${currentBranchName}");
+//      _chatChannel.push("daily_sales", {
+//        "date_start": start_date,
+//        "date_end": end_date,
+//        "organization_code": "resertech",
+//        "branch_name": currentBranchName
+//      });
+
+
+      yield RmsState.gotDateRange(showTable,showGraph,
+          currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          currentState.list,
+          currentState.chartData,
+          currentState.chartData2,
+          start_month,
+          end_month);
+    }
+
     if (event is OrganzationBranch) {
       var list = event.list;
       var showTable = currentState.showTable;
@@ -144,12 +178,16 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
           currentState.chartData,
           currentState.chartData2,
           currentState.startDate,
-          currentState.endDate);
+          currentState.endDate,
+          currentState.startMonth,
+          currentState.endMonth);
     }
 
     if (event is BranchName) {
       var start_date = event.start_date;
       var end_date = event.end_date;
+      var start_month = event.start_month;
+      var end_month = event.end_month;
       var username = currentState.username;
       var password = currentState.password;
       String currentBranchName = event.currentBranchName;
@@ -157,11 +195,9 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var total_data2 = currentState.total_data2;
 
 
-//
-//
       var _chatChannel;
       _chatChannel = Channel(user: username, licenseKey: password);
-//
+
 //      _chatChannel.push("daily_sales", {
 //        "date_start": start_date,
 //        "date_end": end_date,
@@ -169,12 +205,23 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
 //        "branch_name": currentBranchName
 //      });
 
-
+if  (start_date != null) {
       _chatChannel.push("daily_sales_all", {
         "date_start": start_date,
         "date_end": end_date,
         "organization_code": _chatChannel.user,
       });
+}
+
+
+
+      if  (start_month != null) {
+        _chatChannel.push("monthly_sales_all", {
+          "date_start": start_month,
+          "date_end": end_month,
+          "organization_code": _chatChannel.user,
+        });
+      }
 
 
       var data = currentState.chartData;
@@ -190,8 +237,11 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
           data2,
           currentState.startDate,
           currentState.endDate,
+          currentState.startMonth,
+          currentState.endMonth,
           currentState.username,
-          currentState.password);
+          currentState.password,
+      );
 
 
     }
@@ -206,7 +256,9 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       yield RmsState.gotLogin(showTable,showGraph,username, password, list, currentState.currentBranchName, currentState.chartData,
           currentState.chartData2,
           currentState.startDate,
-          currentState.endDate
+          currentState.endDate,
+          currentState.startMonth,
+          currentState.endMonth
        );
     }
 
@@ -219,6 +271,25 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
 
 
       yield RmsState.gotDailySalesAll(showTable,showGraph,total_data1, total_data2,total_data3, currentState.username,
+          currentState.password,
+          currentState.currentBranchName,
+          currentState.list,
+          currentState.chartData,
+          currentState.chartData2,
+          currentState.startDate,
+          currentState.endDate);
+
+    }
+
+    if (event is MonthlySalesAll) {
+      var total_data4 = event.total_data4;
+      var total_data5 = event.total_data5;
+      var total_data6 = event.total_data6;
+      var showTable = currentState.showTable;
+      var showGraph = currentState.showGraph;
+
+
+      yield RmsState.gotMonthlySalesAll(showTable,showGraph,total_data4, total_data5,total_data6, currentState.username,
           currentState.password,
           currentState.currentBranchName,
           currentState.list,
@@ -243,7 +314,9 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
           currentState.chartData,
           currentState.chartData2,
           currentState.startDate,
-          currentState.endDate);
+          currentState.endDate,
+          currentState.startMonth,
+          currentState.endMonth);
 
     }
   }

@@ -9,7 +9,11 @@ import './TopTabPages/TopTabPage_4.dart';
 import '../rms.dart';
 import '../flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:progress_indicators/progress_indicators.dart';
+import '../main.dart';
+import 'home_page2.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+
 
 class HomePage extends StatefulWidget {
   Channel channel;
@@ -56,6 +60,9 @@ class _HomePageState extends State<HomePage>
     super.dispose();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     var channel = widget.channel;
@@ -77,7 +84,7 @@ class _HomePageState extends State<HomePage>
           channel.on("daily_sales_reply_all", (Map payload) {
 
 
-
+            print("res: ${payload["result"]}");
 
             rmsBloc.dispatch(DailySalesAll( total_data1: payload["result"],total_data2: payload["result2"],total_data3: payload["result3"]));
 
@@ -148,7 +155,7 @@ class _HomePageState extends State<HomePage>
           return new Scaffold(
               appBar: new AppBar(
                   backgroundColor: Color(0xFF444152),
-                title: new Text('Home'),
+                title: new Text('Daily'),
                 actions: <Widget>[
                   new Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -192,6 +199,32 @@ class _HomePageState extends State<HomePage>
 
 
                     ),
+                    new ListTile(   //第二个功能项
+                        title: new Text('Switch To Daily Sales'),
+                        trailing: new Icon(Icons.arrow_right),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage(channel: widget.channel)),
+                          );
+                        }
+                    ),
+                    new ListTile(   //第二个功能项
+                        title: new Text('Switch To Monthly Sales'),
+                        trailing: new Icon(Icons.arrow_right),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage2(channel: widget.channel)),
+                          );
+                        }
+                    ),
                     new ListTile(
                         //第一个功能项
                         title: new Text('View Setting'),
@@ -207,11 +240,30 @@ class _HomePageState extends State<HomePage>
                         }),
 
                     new Divider(), //分割线控件
+
+
                     new ListTile(
                       //退出按钮
                       title: new Text('Close'),
                       trailing: new Icon(Icons.cancel),
                       onTap: () => Navigator.of(context).pop(), //点击后收起侧边栏
+                    ),
+                    new Divider(),    //分割线控件
+                    new ListTile(   //退出按钮
+                      title: new Text('Log Out'),
+                      trailing: new Icon(Icons.cancel),
+                      onTap: () {
+
+
+//                        widget.channel.socket.disconnect();
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                            builder: (context) =>
+                            new LoginPage()), (Route<dynamic> route) => false);
+
+
+
+},
+
                     ),
                   ],
                 ),

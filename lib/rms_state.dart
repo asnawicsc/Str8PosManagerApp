@@ -4,9 +4,14 @@ class RmsState {
   List<dynamic> total_data1;
   List<dynamic> total_data2;
   List<dynamic> total_data3;
+  List<dynamic> total_data4;
+  List<dynamic> total_data5;
+  List<dynamic> total_data6;
   List<dynamic> list;
   String startDate;
   String endDate;
+  String startMonth;
+  String endMonth;
   String name;
   String currentBranchName;
   String username;
@@ -22,11 +27,16 @@ class RmsState {
       this.chartData2,
       this.startDate,
       this.endDate,
+        this.startMonth,
+        this.endMonth,
       this.list,
       this.currentBranchName,
         this.total_data1,
         this.total_data2,
         this.total_data3,
+        this.total_data4,
+        this.total_data5,
+        this.total_data6,
       this.showTable,
       this.showGraph});
 
@@ -86,8 +96,23 @@ class RmsState {
         endDate: end_date);
   }
 
+  factory RmsState.gotMonthRange(showTable, showGraph,username, password, currentBranchName, list,
+      data, data2, start_month, end_month) {
+    return RmsState(
+        showTable: showTable,
+        showGraph: showGraph,
+        username: username,
+        password: password,
+        currentBranchName: currentBranchName,
+        list: list,
+        chartData: data,
+        chartData2: data2,
+        startMonth: start_month,
+        endMonth: end_month);
+  }
+
   factory RmsState.gotOrganzationBranch(showTable, showGraph,username, password, currentBranchName,
-      list, data, data2, start_date, end_date) {
+      list, data, data2, start_date, end_date, start_month, end_month) {
     return RmsState(
         showTable: showTable,
         showGraph: showGraph,
@@ -98,11 +123,13 @@ class RmsState {
         chartData: data,
         chartData2: data2,
         startDate: start_date,
-        endDate: end_date);
+        endDate: end_date,
+        startMonth: start_month,
+        endMonth: end_month);
   }
 
   factory RmsState.gotBranchName(showTable, showGraph,total_data1, total_data2,username, password, currentBranchName, list,
-      data, data2, start_date, end_date) {
+      data, data2, start_date, end_date,start_month,end_month) {
     return RmsState(
       showTable: showTable,
       showGraph: showGraph,
@@ -116,11 +143,13 @@ class RmsState {
       chartData2: data2,
       startDate: start_date,
       endDate: end_date,
+        startMonth: start_month,
+        endMonth: end_month
     );
   }
 
   factory RmsState.gotLogin(showTable, showGraph,username, password, list, currentBranchName, data,
-      data2, start_date, end_date) {
+      data2, start_date, end_date,start_month,end_month) {
     return RmsState(
         showTable: showTable,
         showGraph: showGraph,
@@ -131,7 +160,9 @@ class RmsState {
         chartData: data,
         chartData2: data2,
         startDate: start_date,
-        endDate: end_date);
+        endDate: end_date,
+        startMonth: start_month,
+        endMonth: end_month);
   }
 
   factory RmsState.gotDailySalesAll(showTable, showGraph,total_data1, total_data2,total_data3,username, password, currentBranchName, list,
@@ -153,8 +184,27 @@ class RmsState {
      );
   }
 
+  factory RmsState.gotMonthlySalesAll(showTable, showGraph,total_data4, total_data5,total_data6,username, password, currentBranchName, list,
+      data, data2, start_month, end_month) {
+    return RmsState(
+        showTable: showTable,
+        showGraph: showGraph,
+        total_data4: total_data4,
+        total_data5: total_data5,
+        total_data6: total_data6,
+        username: username,
+        password: password,
+        currentBranchName: currentBranchName,
+        list: list,
+        chartData: data,
+        chartData2: data2,
+        startDate: start_month,
+        endDate: end_month
+    );
+  }
+
   factory RmsState.gotSetting(showTable, showGraph,total_data1, total_data2,username, password, currentBranchName, list,
-      data, data2, start_date, end_date) {
+      data, data2, start_date, end_date,start_month,end_month) {
     return RmsState(
         showTable: showTable,
         showGraph: showGraph,
@@ -167,7 +217,9 @@ class RmsState {
         chartData: data,
         chartData2: data2,
         startDate: start_date,
-        endDate: end_date
+        endDate: end_date,
+        startMonth: start_month,
+        endMonth: end_month
     );
   }
 

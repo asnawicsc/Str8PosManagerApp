@@ -48,117 +48,171 @@ class _LoginPageState extends State<LoginPage> {
   var username = TextEditingController();
   var password = TextEditingController();
 
+  Color hexToColor(String code) {
+    return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
+  }
+
   Widget build(BuildContext context) {
     final RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Login Page'),
-          backgroundColor: Color(0xFF444152),
-        ),
-        body: SafeArea(
-            child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0),
-          children: <Widget>[
-            SizedBox(height: 20.0),
-            Column(
-              children: <Widget>[
-                Image.asset('assets/images/str8_pos.png'),
-                SizedBox(height: 20.0),
-              ],
-            ),
-            SizedBox(height: 50.0),
-            TextField(
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
 
-              controller: username,
-              decoration: InputDecoration(
-                fillColor: Color(0xFF444152),
 
-                labelText: 'Username',
-                filled: true,
-              ),
-            ),
-            SizedBox(height: 12.0),
-            TextField(
-              controller: password,
-              decoration: InputDecoration(
-                fillColor: Color(0xFF444152),
+        title: "Welcome to Flutter",
+        home: new Material(
 
-                labelText: 'Password',
-
-                filled: true,
-              ),
-              obscureText: true,
-            ),
-            ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  color: Color(0xFF444152),
-                  textColor: Color(0xFFFFFFFFF),
-                  child: Text('CANCEL'),
-                  onPressed: () {
-                    username.clear();
-                    password.clear();
-                  },
-                ),
-                RaisedButton(
-                  color: Color(0xFF444152),
-                    textColor: Color(0xFFFFFFFFF),
-                    child: Text('LOGIN'),
-                    onPressed: () {
-
-                    print("user: ${username.text}");
-
-                    if  (username.text.isEmpty  ){
-
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            // return object of type Dialog
-                            return AlertDialog(
-                              title: new Text("Warning"),
-                              content: new Text("Please key In Username/Password"),
-                              actions: <Widget>[
-                                // usually buttons at the bottom of the dialog
-                                new FlatButton(
-                                  child: new Text("Close"),
+            child: new Container (
+                padding: const EdgeInsets.all(30.0),
+                color: Color(0xFF444152),
+                child: new Container(
+                  child: new Center(
+                      child: new Column(
+                          children : [
+                            new Padding(padding: EdgeInsets.only(top: 10.0)),
+                            Image.asset('assets/images/str8_pos.png'),
+                            SizedBox(height: 20.0),
+                            new Padding(padding: EdgeInsets.only(top: 20.0)),
+                            new TextFormField(
+                              controller: username,
+                              decoration: new InputDecoration(
+                                labelText: "Enter Username",
+                                fillColor: Colors.white,
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(25.0),
+                                  borderSide: new BorderSide(
+                                  ),
+                                ),
+                                //fillColor: Colors.green
+                              ),
+                              validator: (val) {
+                                if(val.length==0) {
+                                  return "Username cannot be empty";
+                                }else{
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                              style: new TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            new Padding(padding: EdgeInsets.only(top:10.0)),
+                            new TextFormField(
+                              controller: password,
+                              decoration: new InputDecoration(
+                                labelText: "Enter Password",
+                                fillColor: Colors.white,
+                                border: new OutlineInputBorder(
+                                  borderRadius: new BorderRadius.circular(25.0),
+                                  borderSide: new BorderSide(
+                                  ),
+                                ),
+                                //fillColor: Colors.green
+                              ),
+                              validator: (val2) {
+                                if(val2.length==0) {
+                                  return "Password cannot be empty";
+                                }else{
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.emailAddress,
+                              style: new TextStyle(
+                                fontFamily: "Poppins",
+                              ),
+                              obscureText: true,
+                            ),
+                            ButtonBar(
+                              children: <Widget>[
+                                FlatButton(
+                                  color: Color(0xFFFFFFFFF),
+                                  textColor: Color(0xFF444152),
+                                  child: Text('CANCEL'),
                                   onPressed: () {
-                                    Navigator.of(context).pop();
+                                    username.clear();
+                                    password.clear();
                                   },
                                 ),
-                              ],
-                            );
-                          },
-                        );
+                                RaisedButton(
+                                    color: Color(0xFFFFFFFFF),
+                                    textColor: Color(0xFF444152),
+                                    child: Text('LOGIN'),
+                                    onPressed: () {
+
+                                      print("user: ${username.text}");
+
+                                      if  (username.text.isEmpty  ){
+
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: new Text("Warning"),
+                                              content: new Text("Please key In Username/Password"),
+                                              actions: <Widget>[
+                                                // usually buttons at the bottom of the dialog
+                                                new FlatButton(
+                                                  child: new Text("Close"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
 
 
-                    }
-                    else {
-                      _chatChannel = Channel(
-                          user: username.text, licenseKey: password.text);
+                                      }
+                                      else if (password.text.isEmpty){ showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          // return object of type Dialog
+                                          return AlertDialog(
+                                            title: new Text("Warning"),
+                                            content: new Text("Please key In Username/Password"),
+                                            actions: <Widget>[
+                                              // usually buttons at the bottom of the dialog
+                                              new FlatButton(
+                                                child: new Text("Close"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );}
+                                      else{
+                                        _chatChannel = Channel(
+                                            user: username.text, licenseKey: password.text);
 
 
-                      rmsBloc.dispatch(Login(
-                          username: username.text, password: password.text));
+                                        rmsBloc.dispatch(Login(
+                                            username: username.text, password: password.text));
 
-                      _chatChannel.socket
-                          .onError((error) => print("socket.onError: $error"));
-                      _chatChannel.socket
-                          .onClose((msg) => print("socket.onClose: $msg"));
-
-
-                      _chatChannel.push("organization_branch", {
-                        "organization_code": _chatChannel.user
-                      });
+                                        _chatChannel.socket
+                                            .onError((error) => print("socket.onError: $error"));
+                                        _chatChannel.socket
+                                            .onClose((msg) => print("socket.onClose: $msg"));
 
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                HomePage(channel: _chatChannel)),
-                      );
-                    }
+                                        _chatChannel.push("organization_branch", {
+                                          "organization_code": _chatChannel.user
+                                        });
+
+
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HomePage(channel: _chatChannel)),
+                                        );
+
+
+                                      }
 //                          Navigator.push(
 //                            context,
 //                            MaterialPageRoute(builder: (context) => MainSalesPage(channel: _chatChannel)),
@@ -174,10 +228,146 @@ class _LoginPageState extends State<LoginPage> {
 //                          );
 //                        },
 //                      );
-                    })
-              ],
+                                    })
+                              ],
+                            )
+                          ]
+                      )
+                  ),
+
+                )
             )
-          ],
-        )));
+        )
+    );
+
+//    return Scaffold(
+//      backgroundColor: Color(0xFF444152),
+//
+//        body: SafeArea(
+//            child: ListView(
+//          padding: EdgeInsets.symmetric(horizontal: 24.0),
+//          children: <Widget>[
+//            SizedBox(height: 20.0),
+//            Column(
+//              children: <Widget>[
+//                Image.asset('assets/images/str8_pos.png'),
+//                SizedBox(height: 20.0),
+//              ],
+//            ),
+//            SizedBox(height: 50.0),
+//            TextField(
+//
+//              controller: username,
+//              decoration: InputDecoration(
+//                fillColor: Color(0xFF444152),
+//
+//                labelText: 'Username',
+//                filled: true,
+//              ),
+//            ),
+//            SizedBox(height: 12.0),
+//            TextField(
+//              controller: password,
+//              decoration: InputDecoration(
+//                fillColor: Color(0xFF444152),
+//
+//
+//                labelText: 'Password',
+//
+//                filled: true,
+//              ),
+//              obscureText: true,
+//            ),
+//            ButtonBar(
+//              children: <Widget>[
+//                FlatButton(
+//                  color: Color(0xFFFFFFFFF),
+//                  textColor: Color(0xFF444152),
+//                  child: Text('CANCEL'),
+//                  onPressed: () {
+//                    username.clear();
+//                    password.clear();
+//                  },
+//                ),
+//                RaisedButton(
+//                  color: Color(0xFFFFFFFFF),
+//                    textColor: Color(0xFF444152),
+//                    child: Text('LOGIN'),
+//                    onPressed: () {
+//
+//                    print("user: ${username.text}");
+//
+//                    if  (username.text.isEmpty  ){
+//
+//                        showDialog(
+//                          context: context,
+//                          builder: (BuildContext context) {
+//                            // return object of type Dialog
+//                            return AlertDialog(
+//                              title: new Text("Warning"),
+//                              content: new Text("Please key In Username/Password"),
+//                              actions: <Widget>[
+//                                // usually buttons at the bottom of the dialog
+//                                new FlatButton(
+//                                  child: new Text("Close"),
+//                                  onPressed: () {
+//                                    Navigator.of(context).pop();
+//                                  },
+//                                ),
+//                              ],
+//                            );
+//                          },
+//                        );
+//
+//
+//                    }
+//                    else {
+//                      _chatChannel = Channel(
+//                          user: username.text, licenseKey: password.text);
+//
+//
+//                      rmsBloc.dispatch(Login(
+//                          username: username.text, password: password.text));
+//
+//                      _chatChannel.socket
+//                          .onError((error) => print("socket.onError: $error"));
+//                      _chatChannel.socket
+//                          .onClose((msg) => print("socket.onClose: $msg"));
+//
+//
+//                      _chatChannel.push("organization_branch", {
+//                        "organization_code": _chatChannel.user
+//                      });
+//
+//
+//                      Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                            builder: (context) =>
+//                                HomePage(channel: _chatChannel)),
+//                      );
+//
+//
+//                    }
+////                          Navigator.push(
+////                            context,
+////                            MaterialPageRoute(builder: (context) => MainSalesPage(channel: _chatChannel)),
+////                          );
+////                      return showDialog(
+////                        context: context,
+////                        builder: (context) {
+////                          return AlertDialog(
+////                            // Retrieve the text the user has typed in using our
+////                            // TextEditingController
+////                            content: Text(username.text + password.text)
+////
+////                          );
+////                        },
+////                      );
+//                    })
+//              ],
+//            )
+//          ],
+//        )));
   }
 }
