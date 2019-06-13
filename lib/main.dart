@@ -6,6 +6,7 @@ import 'flutter_bloc/flutter_bloc.dart';
 import 'main_sales.dart';
 import 'pages/home_page.dart';
 
+
 Channel _chatChannel;
 void main() => runApp(MyApp());
 
@@ -38,22 +39,49 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
 class LoginPage extends StatefulWidget {
   // This widget is the root of your application.
+
+
   @override
   _LoginPageState createState() => _LoginPageState();
+
+
+
 }
 
+
 class _LoginPageState extends State<LoginPage> {
-  var username = TextEditingController();
-  var password = TextEditingController();
+  final TextEditingController username = new TextEditingController();
+  final TextEditingController password = new TextEditingController();
+  RmsBloc rmsBloc = new RmsBloc();
+  @override
+
+
+String data;
+String data2;
+
 
   Color hexToColor(String code) {
     return new Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     final RmsBloc rmsBloc = BlocProvider.of<RmsBloc>(context);
+
+
+
+   if (rmsBloc.currentState.username != null)
+     {data == rmsBloc.currentState.username ;}
+
+    if (rmsBloc.currentState.password != null)
+    { data2 == rmsBloc.currentState.password ;}
+
+    print("ss${rmsBloc.currentState.username}");
+    print("data${data}");
+    print("data2${data2}");
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -74,15 +102,21 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: 20.0),
                             new Padding(padding: EdgeInsets.only(top: 20.0)),
                             new TextFormField(
+
                               controller: username,
+
+
+
                               decoration: new InputDecoration(
+
+
                                 labelText: "Enter Username",
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(25.0),
-                                  borderSide: new BorderSide(
-                                  ),
-                                ),
+                                fillColor: Colors.grey,
+                                filled: true,
+
+
+
+
                                 //fillColor: Colors.green
                               ),
                               validator: (val) {
@@ -100,14 +134,12 @@ class _LoginPageState extends State<LoginPage> {
                             new Padding(padding: EdgeInsets.only(top:10.0)),
                             new TextFormField(
                               controller: password,
+
                               decoration: new InputDecoration(
                                 labelText: "Enter Password",
-                                fillColor: Colors.white,
-                                border: new OutlineInputBorder(
-                                  borderRadius: new BorderRadius.circular(25.0),
-                                  borderSide: new BorderSide(
-                                  ),
-                                ),
+                                fillColor: Colors.grey,
+                                filled: true,
+
                                 //fillColor: Colors.green
                               ),
                               validator: (val2) {
@@ -126,8 +158,8 @@ class _LoginPageState extends State<LoginPage> {
                             ButtonBar(
                               children: <Widget>[
                                 FlatButton(
-                                  color: Color(0xFFFFFFFFF),
-                                  textColor: Color(0xFF444152),
+                                  color: Color(0xfff65aa3),
+                                  textColor: Colors.white,
                                   child: Text('CANCEL'),
                                   onPressed: () {
                                     username.clear();
@@ -135,8 +167,8 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                 ),
                                 RaisedButton(
-                                    color: Color(0xFFFFFFFFF),
-                                    textColor: Color(0xFF444152),
+                                    color: Color(0xfff65aa3),
+                                    textColor: Colors.white,
                                     child: Text('LOGIN'),
                                     onPressed: () {
 
@@ -185,7 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                                           );
                                         },
                                       );}
-                                      else{
+                                      else {
                                         _chatChannel = Channel(
                                             user: username.text, licenseKey: password.text);
 
@@ -213,21 +245,7 @@ class _LoginPageState extends State<LoginPage> {
 
 
                                       }
-//                          Navigator.push(
-//                            context,
-//                            MaterialPageRoute(builder: (context) => MainSalesPage(channel: _chatChannel)),
-//                          );
-//                      return showDialog(
-//                        context: context,
-//                        builder: (context) {
-//                          return AlertDialog(
-//                            // Retrieve the text the user has typed in using our
-//                            // TextEditingController
-//                            content: Text(username.text + password.text)
 //
-//                          );
-//                        },
-//                      );
                                     })
                               ],
                             )
@@ -240,134 +258,6 @@ class _LoginPageState extends State<LoginPage> {
         )
     );
 
-//    return Scaffold(
-//      backgroundColor: Color(0xFF444152),
-//
-//        body: SafeArea(
-//            child: ListView(
-//          padding: EdgeInsets.symmetric(horizontal: 24.0),
-//          children: <Widget>[
-//            SizedBox(height: 20.0),
-//            Column(
-//              children: <Widget>[
-//                Image.asset('assets/images/str8_pos.png'),
-//                SizedBox(height: 20.0),
-//              ],
-//            ),
-//            SizedBox(height: 50.0),
-//            TextField(
-//
-//              controller: username,
-//              decoration: InputDecoration(
-//                fillColor: Color(0xFF444152),
-//
-//                labelText: 'Username',
-//                filled: true,
-//              ),
-//            ),
-//            SizedBox(height: 12.0),
-//            TextField(
-//              controller: password,
-//              decoration: InputDecoration(
-//                fillColor: Color(0xFF444152),
-//
-//
-//                labelText: 'Password',
-//
-//                filled: true,
-//              ),
-//              obscureText: true,
-//            ),
-//            ButtonBar(
-//              children: <Widget>[
-//                FlatButton(
-//                  color: Color(0xFFFFFFFFF),
-//                  textColor: Color(0xFF444152),
-//                  child: Text('CANCEL'),
-//                  onPressed: () {
-//                    username.clear();
-//                    password.clear();
-//                  },
-//                ),
-//                RaisedButton(
-//                  color: Color(0xFFFFFFFFF),
-//                    textColor: Color(0xFF444152),
-//                    child: Text('LOGIN'),
-//                    onPressed: () {
-//
-//                    print("user: ${username.text}");
-//
-//                    if  (username.text.isEmpty  ){
-//
-//                        showDialog(
-//                          context: context,
-//                          builder: (BuildContext context) {
-//                            // return object of type Dialog
-//                            return AlertDialog(
-//                              title: new Text("Warning"),
-//                              content: new Text("Please key In Username/Password"),
-//                              actions: <Widget>[
-//                                // usually buttons at the bottom of the dialog
-//                                new FlatButton(
-//                                  child: new Text("Close"),
-//                                  onPressed: () {
-//                                    Navigator.of(context).pop();
-//                                  },
-//                                ),
-//                              ],
-//                            );
-//                          },
-//                        );
-//
-//
-//                    }
-//                    else {
-//                      _chatChannel = Channel(
-//                          user: username.text, licenseKey: password.text);
-//
-//
-//                      rmsBloc.dispatch(Login(
-//                          username: username.text, password: password.text));
-//
-//                      _chatChannel.socket
-//                          .onError((error) => print("socket.onError: $error"));
-//                      _chatChannel.socket
-//                          .onClose((msg) => print("socket.onClose: $msg"));
-//
-//
-//                      _chatChannel.push("organization_branch", {
-//                        "organization_code": _chatChannel.user
-//                      });
-//
-//
-//                      Navigator.push(
-//                        context,
-//                        MaterialPageRoute(
-//                            builder: (context) =>
-//                                HomePage(channel: _chatChannel)),
-//                      );
-//
-//
-//                    }
-////                          Navigator.push(
-////                            context,
-////                            MaterialPageRoute(builder: (context) => MainSalesPage(channel: _chatChannel)),
-////                          );
-////                      return showDialog(
-////                        context: context,
-////                        builder: (context) {
-////                          return AlertDialog(
-////                            // Retrieve the text the user has typed in using our
-////                            // TextEditingController
-////                            content: Text(username.text + password.text)
-////
-////                          );
-////                        },
-////                      );
-//                    })
-//              ],
-//            )
-//          ],
-//        )));
+
   }
 }

@@ -178,20 +178,22 @@ class _HomePage2State extends State<HomePage2>
                 ],
               ), //头部的标题AppBar
               drawer: new Drawer(
+          child: Container(
+          color: Color(0xFF444152),
+
                 //侧边栏按钮Drawer
                 child: new ListView(
                   children: <Widget>[
                     new UserAccountsDrawerHeader(
                       //Material内置控件
                       accountName: new Text(rmsBloc.currentState.username), //用户名
-                      accountEmail: new Text('resertech@gmail.com'), //用户邮箱
+                      accountEmail: new Text(''), //用户邮箱
                       currentAccountPicture: new GestureDetector(
                         //用户头像
                         onTap: () => print('current user'),
                         child: new CircleAvatar(
                           //圆形图标控件
-                          backgroundImage: new NetworkImage(
-                              'https://upload.jianshu.io/users/upload_avatars/7700793/dbcf94ba-9e63-4fcf-aa77-361644dd5a87?imageMogr2/auto-orient/strip|imageView2/1/w/240/h/240'), //图片调取自网络
+                            backgroundImage: new AssetImage('assets/images/str8_pos.png')//图片调取自网络
                         ),
                       ),
                       otherAccountsPictures: <Widget>[
@@ -202,8 +204,17 @@ class _HomePage2State extends State<HomePage2>
 
                     ),
                     new ListTile(   //第二个功能项
-                        title: new Text('Switch To Daily Sales'),
-                        trailing: new Icon(Icons.arrow_right),
+                        title: Row(
+
+                          children: <Widget>[
+                            Expanded(flex: 1, child: Icon(Icons.today, color: Colors.white,
+                            )),
+                            Expanded(flex: 4, child: Text(
+                              "Switch To Daily Sales",
+                              style: TextStyle(color: Colors.white),
+                            ))
+                          ],
+                        ),
                         onTap: () {
                           Navigator.of(context).pop();
                           Navigator.push(
@@ -215,8 +226,17 @@ class _HomePage2State extends State<HomePage2>
                         }
                     ),
                     new ListTile(   //第二个功能项
-                        title: new Text('Switch To Monthly Sales'),
-                        trailing: new Icon(Icons.arrow_right),
+                        title: Row(
+
+                          children: <Widget>[
+                            Expanded(flex: 1, child: Icon(Icons.today, color: Colors.white,
+                            )),
+                            Expanded(flex: 4, child: Text(
+                              "Switch To Monthly Sales",
+                              style: TextStyle(color: Colors.white),
+                            ))
+                          ],
+                        ),
                         onTap: () {
                           Navigator.of(context).pop();
                           Navigator.push(
@@ -229,8 +249,17 @@ class _HomePage2State extends State<HomePage2>
                     ),
                     new ListTile(
                       //第一个功能项
-                        title: new Text('View Setting'),
-                        trailing: new Icon(Icons.arrow_right),
+                        title: Row(
+
+                          children: <Widget>[
+                            Expanded(flex: 1, child: Icon(Icons.settings, color: Colors.white,
+                            )),
+                            Expanded(flex: 4, child: Text(
+                              "View Settings",
+                              style: TextStyle(color: Colors.white),
+                            ))
+                          ],
+                        ),
                         onTap: () {
                           Navigator.of(context).pop();
                           Navigator.push(
@@ -246,14 +275,32 @@ class _HomePage2State extends State<HomePage2>
 
                     new ListTile(
                       //退出按钮
-                      title: new Text('Close'),
-                      trailing: new Icon(Icons.cancel),
+                      title: Row(
+
+                        children: <Widget>[
+                          Expanded(flex: 1, child: Icon(Icons.close, color: Colors.white,
+                          )),
+                          Expanded(flex: 4, child: Text(
+                            "Close",
+                            style: TextStyle(color: Colors.white),
+                          ))
+                        ],
+                      ),
                       onTap: () => Navigator.of(context).pop(), //点击后收起侧边栏
                     ),
                     new Divider(),    //分割线控件
                     new ListTile(   //退出按钮
-                      title: new Text('Log Out'),
-                      trailing: new Icon(Icons.cancel),
+                      title: Row(
+
+                        children: <Widget>[
+                          Expanded(flex: 1, child: Icon(Icons.exit_to_app, color: Colors.white,
+                          )),
+                          Expanded(flex: 4, child: Text(
+                            "Log Out",
+                            style: TextStyle(color: Colors.white),
+                          ))
+                        ],
+                      ),
                       onTap: () {
 
 
@@ -269,7 +316,7 @@ class _HomePage2State extends State<HomePage2>
                     ),
                   ],
                 ),
-              ),
+              ),),
               body: new TabBarView(controller: _bottomNavigation, children: [
                 //注意顺序与TabBar保持一直
                 new News5(
