@@ -555,9 +555,16 @@ class TableListState extends State<TableList> {
             ];
 
             for (var name in list) {
+
+              if (name["sales"] > name["prev_sales"]) {
+                "Increase";
+              };
+
               dr.add(DataRow(cells: <DataCell>[
                 DataCell(Text(name["day"].toString())),
-                DataCell(Text(name["sales"].toString()))
+                DataCell(Text(name["sales"].toString())),
+                DataCell(Text(name["prev_sales"].toString())),
+                DataCell(Text(name["status"])),
               ]));
             }
           }
@@ -569,12 +576,22 @@ class TableListState extends State<TableList> {
       DataColumn(
         label: Text("Day"),
         numeric: false,
-        tooltip: "To display first name",
+        tooltip: "Day",
       ),
       DataColumn(
         label: Text("Total Sales (RM)"),
         numeric: false,
-        tooltip: "To display first name",
+        tooltip: "Total Sales (RM)",
+      ),
+      DataColumn(
+        label: Text("Total Previous Day Sales (RM)"),
+        numeric: false,
+        tooltip: "Total Previous Day Sales (RM)",
+      ),
+      DataColumn(
+        label: Text("Status"),
+        numeric: false,
+        tooltip: "Status",
       )
     ], rows: dr);
   }
