@@ -73,13 +73,6 @@ class _HomePageState extends State<HomePage>
     return BlocBuilder(
         bloc: rmsBloc,
         builder: (BuildContext context, RmsState state) {
-//          if (rmsBloc.currentState.list != null) {
-//            for (var i = 0; i < rmsBloc.currentState.list.length; i++) {
-//              branchStings.add(rmsBloc.currentState.list[i]);
-//            }
-//          } else {
-//            branchStings = ["All Branch"];
-//          }
 
           channel.on("daily_sales_reply_all", (Map payload) {
 

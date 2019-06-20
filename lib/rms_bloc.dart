@@ -30,15 +30,10 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
     if (event is DailySales) {
       var data = event.result;
       var data2 = event.result2;
-      var rmsBloc;
 
-      var _chatChannel;
-      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
+      var _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
 
 
-//
-//
-//      print("rere: ${event.result}");
       yield RmsState.gotDailySalesData(
           currentState.currentBranchName,
           currentState.list,
@@ -49,53 +44,6 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
           currentState.startDate,
           currentState.endDate);
     }
-//    if (event is MonthlySales) {
-//      var data = event.result;
-//
-//
-//      yield RmsState.gotMonthlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
-//    }
-//    if (event is YearlySales) {
-//      var data = event.result;
-//
-//
-//      yield RmsState.gotYearlySalesData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
-//    }
-//
-//    if (event is Top10SalesItem) {
-//      var data = event.result;
-//      var list = event.list;
-//
-//      yield RmsState.gotTop10SalesItemData(currentState.currentBranchName,currentState.list,data, currentState.startDate, currentState.endDate);
-//    }
-//    if (event is TodaySales) {
-//      var data = event.result;
-//
-//      var name = event.name;
-//
-//      yield RmsState.gotTodaySalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-//    }
-//    if (event is ThisMonthSales) {
-//      var data = event.result;
-//      var list = event.list;
-//      var name = event.name;
-//
-//      yield RmsState.gotThisMonthSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-//    }
-//    if (event is ThisWeekSales) {
-//      var data = event.result;
-//
-//      var name = event.name;
-//
-//      yield RmsState.gotThisWeekSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-//    }
-//    if (event is ThisYearSales) {
-//      var data = event.result;
-//
-//      var name = event.name;
-//
-//      yield RmsState.gotThisYearSalesData(currentState.currentBranchName,currentState.list,name,data, currentState.startDate, currentState.endDate);
-//    }
 
     if (event is DateRange) {
 
@@ -104,20 +52,6 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var showTable = currentState.showTable;
       var showGraph = currentState.showGraph;
 
-//      var _chatChannel;
-//      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
-////
-//      _chatChannel
-//          .push("organization_branch", {"organization_code": "resertech"});
-//      print("eventcurent2: ${event.currentBranchName}");
-
-//      print("dsadsssad: ${currentBranchName}");
-//      _chatChannel.push("daily_sales", {
-//        "date_start": start_date,
-//        "date_end": end_date,
-//        "organization_code": "resertech",
-//        "branch_name": currentBranchName
-//      });
 
 
       yield RmsState.gotDateRange(showTable,showGraph,
@@ -138,20 +72,6 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var showTable = currentState.showTable;
       var showGraph = currentState.showGraph;
 
-//      var _chatChannel;
-//      _chatChannel = Channel(user: currentState.username, licenseKey: currentState.password);
-////
-//      _chatChannel
-//          .push("organization_branch", {"organization_code": "resertech"});
-//      print("eventcurent2: ${event.currentBranchName}");
-
-//      print("dsadsssad: ${currentBranchName}");
-//      _chatChannel.push("daily_sales", {
-//        "date_start": start_date,
-//        "date_end": end_date,
-//        "organization_code": "resertech",
-//        "branch_name": currentBranchName
-//      });
 
 
       yield RmsState.gotDateRange(showTable,showGraph,
@@ -198,12 +118,7 @@ class RmsBloc extends Bloc<RmsEvent, RmsState> {
       var _chatChannel;
       _chatChannel = Channel(user: username, licenseKey: password);
 
-//      _chatChannel.push("daily_sales", {
-//        "date_start": start_date,
-//        "date_end": end_date,
-//        "organization_code": _chatChannel.user,
-//        "branch_name": currentBranchName
-//      });
+
 
 if  (start_date != null) {
       _chatChannel.push("daily_sales_all", {
@@ -211,6 +126,8 @@ if  (start_date != null) {
         "date_end": end_date,
         "organization_code": _chatChannel.user,
       });
+
+      _chatChannel.socket.disconnect();
 }
 
 
@@ -221,6 +138,8 @@ if  (start_date != null) {
           "date_end": end_month,
           "organization_code": _chatChannel.user,
         });
+
+        _chatChannel.socket.disconnect();
       }
 
 

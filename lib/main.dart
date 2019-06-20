@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+
 import 'channel/channel.dart';
 import 'rms.dart';
 import 'flutter_bloc/flutter_bloc.dart';
-import 'main_sales.dart';
+
 import 'pages/home_page.dart';
 
 
@@ -234,6 +234,8 @@ String data2;
                                         _chatChannel.push("organization_branch", {
                                           "organization_code": _chatChannel.user
                                         });
+
+                                        _chatChannel.socket.disconnect();
 
 
                                         Navigator.push(

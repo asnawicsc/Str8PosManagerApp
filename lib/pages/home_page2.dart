@@ -112,12 +112,6 @@ class _HomePage2State extends State<HomePage2>
             total_data6 = [];
           }
 
-
-
-
-
-
-
           channel.on("organization_branch_reply", (Map payload) {
             List<String> branchStings = [];
 
