@@ -127,7 +127,7 @@ if  (start_date != null) {
         "organization_code": _chatChannel.user,
       });
 
-      _chatChannel.socket.disconnect();
+
 }
 
 
@@ -139,7 +139,7 @@ if  (start_date != null) {
           "organization_code": _chatChannel.user,
         });
 
-        _chatChannel.socket.disconnect();
+
       }
 
 

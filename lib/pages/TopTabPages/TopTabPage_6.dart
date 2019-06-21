@@ -374,10 +374,19 @@ class _NewsListState extends State<NewsList> {
                       height: 50,
                     ),
                     Text('Top 10 Items'),
-                    visibilityTag == true ? TableListTwo(channel: channel,
-                        rmsBloc: rmsBloc,
-                        total5: widget.total5,
-                        branch: widget.newsType): new Container(),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Column(
+
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              visibilityTag == true ? TableListTwo(channel: channel,
+                                  rmsBloc: rmsBloc,
+                                  total5: widget.total5,
+                                  branch: widget.newsType): new Container(),
+                            ])),
+
                     Divider(),
                     visibilityObs == true ? Container(
                       child: listWidgets3,
@@ -388,11 +397,20 @@ class _NewsListState extends State<NewsList> {
                     Divider(),
 
                     Text('Sales Payment'),
-                    visibilityTag == true ?TableListThree(
-                        channel: channel,
-                        rmsBloc: rmsBloc,
-                        total6: widget.total6,
-                        branch: widget.newsType) : new Container(),
+                    SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Column(
+
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              visibilityTag == true ?TableListThree(
+                                  channel: channel,
+                                  rmsBloc: rmsBloc,
+                                  total6: widget.total6,
+                                  branch: widget.newsType) : new Container(),
+                            ])),
+
                   ],
                 ),
               ));
@@ -567,24 +585,24 @@ class TableListState extends State<TableList> {
 
               if (name["status"] == "Increase"){
                 dr.add(DataRow(cells: <DataCell>[
-                  DataCell(Text(name["month"].toString(), style: new TextStyle(fontSize: 8.0))),
-                  DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 8.0))),
-                  DataCell(Text(name["prev_sales"].toString(), style: new TextStyle(fontSize: 8.0))),
+                  DataCell(Text(name["month"].toString(), style: new TextStyle(fontSize: 18.0))),
+                  DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 18.0))),
+                  DataCell(Text(name["prev_sales"].toString(), style: new TextStyle(fontSize: 18.0))),
                   DataCell(Icon(Icons.arrow_drop_up,color: Colors.green,))])
                 );}
               if(name["status"] == "Decrease"){
                 dr.add(DataRow(cells: <DataCell>[
-                  DataCell(Text(name["month"].toString(), style: new TextStyle(fontSize: 8.0))),
-                  DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 8.0))),
-                  DataCell(Text(name["prev_sales"].toString(), style: new TextStyle(fontSize: 8.0))),
+                  DataCell(Text(name["month"].toString(), style: new TextStyle(fontSize: 18.0))),
+                  DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 18.0))),
+                  DataCell(Text(name["prev_sales"].toString(), style: new TextStyle(fontSize: 18.0))),
                   DataCell(Icon(Icons.arrow_drop_down,color: Colors.red,))])
                 );}
               if(name["status"] == "Same")
               {
                 dr.add(DataRow(cells: <DataCell>[
-                  DataCell(Text(name["month"].toString(), style: new TextStyle(fontSize: 8.0))),
-                  DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 8.0))),
-                  DataCell(Text(name["prev_sales"].toString(), style: new TextStyle(fontSize: 8.0))),
+                  DataCell(Text(name["month"].toString(), style: new TextStyle(fontSize: 18.0))),
+                  DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 18.0))),
+                  DataCell(Text(name["prev_sales"].toString(), style: new TextStyle(fontSize: 18.0))),
                   DataCell(Icon(Icons.linear_scale,color: Colors.blue,))])
                 );}
 
@@ -598,22 +616,22 @@ class TableListState extends State<TableList> {
 
     return DataTable(columns: <DataColumn>[
       DataColumn(
-        label: Text("Month", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Month", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "Month",
       ),
       DataColumn(
-        label: Text("Total Sales (RM)", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Total Sales (RM)", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "Total Sales (RM)",
       ),
       DataColumn(
-        label: Text("Total Previous Month Sales (RM)", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Total Previous Month Sales (RM)", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "Total Previous Month Sales (RM)",
       ),
       DataColumn(
-        label: Text("Status", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Status", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "Status",
       )
@@ -656,8 +674,8 @@ class TableListTwoState extends State<TableListTwo> {
               0) {
             for (var name in widget.total5.where((t) => t["branch"] == widget.branch).toList()) {
               dr2.add(DataRow(cells: <DataCell>[
-                DataCell(Text(name["item"].toString(), style: new TextStyle(fontSize: 8.0))),
-                DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 8.0)))
+                DataCell(Text(name["item"].toString(), style: new TextStyle(fontSize: 18.0))),
+                DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 18.0)))
               ]));
             }
 
@@ -668,12 +686,12 @@ class TableListTwoState extends State<TableListTwo> {
 
     return DataTable(columns: <DataColumn>[
       DataColumn(
-        label: Text("Item Name", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Item Name", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "To display first name",
       ),
       DataColumn(
-        label: Text("Total Sales (RM)", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Total Sales (RM)", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "To display first name",
       )
@@ -718,8 +736,8 @@ class TableListThreeState extends State<TableListThree> {
               0) {
             for (var name in widget.total6.where((t) => t["branch"] == widget.branch).toList()) {
               dr2.add(DataRow(cells: <DataCell>[
-                DataCell(Text(name["payment_type"], style: new TextStyle(fontSize: 8.0))),
-                DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 8.0)))
+                DataCell(Text(name["payment_type"], style: new TextStyle(fontSize: 18.0))),
+                DataCell(Text(name["sales"].toString(), style: new TextStyle(fontSize: 18.0)))
               ]));
             }
 
@@ -731,12 +749,12 @@ class TableListThreeState extends State<TableListThree> {
     return DataTable(columns: <DataColumn>[
 
       DataColumn(
-        label: Text("Payment Name", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Payment Name", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "To display first name",
       ),
       DataColumn(
-        label: Text("Total Sales (RM)", style: new TextStyle(fontSize: 8.0)),
+        label: Text("Total Sales (RM)", style: new TextStyle(fontSize: 28.0)),
         numeric: false,
         tooltip: "To display first name",
       )

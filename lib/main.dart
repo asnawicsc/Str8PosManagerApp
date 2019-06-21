@@ -235,7 +235,7 @@ String data2;
                                           "organization_code": _chatChannel.user
                                         });
 
-                                        _chatChannel.socket.disconnect();
+
 
 
                                         Navigator.push(
